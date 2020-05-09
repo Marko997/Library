@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { Librarian } from 'entities/librarian.entity';
+import { Librarian } from '../entities/librarian.entity';
 import { LibrarianService } from './services/librarian/librarian.service';
 
 @Controller()

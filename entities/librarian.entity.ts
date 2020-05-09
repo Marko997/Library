@@ -1,13 +1,35 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import {
+  Column,
+  Entity,
+  Index,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Loan } from "./loan.entity";
 
-@Entity()
+@Index("uq_librarian_username", ["username"], { unique: true })
+@Entity("librarian")
+
 export class Librarian {
-    @PrimaryGeneratedColumn({ name: 'librarian_id', type: 'int', unsigned: true })
-    librarianId: number;
+  @PrimaryGeneratedColumn({ type: "int", name: "librarian_id", unsigned: true })
+  librarianId: number;
 
-    @Column({type:'varchar', length:'32', unique: true})
-    username: string;
+  @Column( {
+    type: "varchar",
+    unique: true,
+    length: 32
+    
+  })
+  username: string;
 
-    @Column({name:'password_hash', type:'varchar',length:'128'})
-    passwordHash: string;
+  @Column( {
+    type: "varchar",
+    name: "password_hash",
+    length: 128
+    
+  })
+  passwordHash: string;
+
+  @OneToMany(() => Loan, (loan) => loan.librarian)
+  loans: Loan[];
 }
