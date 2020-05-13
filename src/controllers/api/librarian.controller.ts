@@ -30,7 +30,7 @@ export class LibrarianControler {
         resolve(new ApiResponse("error", -1002));
       }
       resolve(librarian);
-      
+
     });
     
   }
