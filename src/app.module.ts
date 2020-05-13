@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
+import { AppController } from './controllers/app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConfiguration } from '../config/database.configuration';
 import { Librarian } from '../entities/librarian.entity';
@@ -11,6 +11,7 @@ import { Loan } from '../entities/loan.entity';
 import { Photo } from '../entities/photo.entity';
 import { Reservation } from '../entities/reservation.entity';
 import { Student } from '../entities/student.entity';
+import { LibrarianControler } from './controllers/api/librarian.controller';
 
 
 
@@ -36,7 +37,10 @@ import { Student } from '../entities/student.entity';
     }),
     TypeOrmModule.forFeature([ Librarian ])
   ],
-  controllers: [AppController],
+  controllers: [
+    AppController,
+    LibrarianControler,
+  ],
   providers: [LibrarianService],
 })
 export class AppModule {}
