@@ -13,13 +13,17 @@ export class Category {
   @PrimaryGeneratedColumn({ type: "int", name: "category_id", unsigned: true })
   categoryId: number;
 
-  @Column( {
+  @Column({
     type: "varchar",
+    name: "name",
     unique: true,
     length: 32,
     
   })
   name: string;
+
+  @Column( { type: "varchar",name: "image_path", length: 150 })
+  imagePath: string;
 
   @OneToMany(() => Book, (book) => book.category)
   books: Book[];

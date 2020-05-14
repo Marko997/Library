@@ -12,6 +12,10 @@ import { Photo } from '../entities/photo.entity';
 import { Reservation } from '../entities/reservation.entity';
 import { Student } from '../entities/student.entity';
 import { LibrarianControler } from './controllers/api/librarian.controller';
+import { CategoryController } from './controllers/api/category.controller';
+import { CategoryService } from './services/category/category.service';
+import { BookService } from './services/book/book.service';
+import { BookController } from './controllers/api/book.controler';
 
 
 
@@ -35,12 +39,23 @@ import { LibrarianControler } from './controllers/api/librarian.controller';
         Student
       ]
     }),
-    TypeOrmModule.forFeature([ Librarian ])
+    TypeOrmModule.forFeature([ 
+      Librarian,
+      Category,
+      Book,
+    
+    ])
   ],
   controllers: [
     AppController,
     LibrarianControler,
+    CategoryController,
+    BookController,
   ],
-  providers: [LibrarianService],
+  providers: [
+    LibrarianService,
+    CategoryService,
+    BookService,
+  ],
 })
 export class AppModule {}
