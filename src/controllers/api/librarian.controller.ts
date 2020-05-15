@@ -8,7 +8,7 @@ import { async } from "rxjs/internal/scheduler/async";
 
 
 @Controller('api/librarian')
-export class LibrarianControler {
+export class LibrarianController {
     constructor(
         private librarianService: LibrarianService
     ){}
