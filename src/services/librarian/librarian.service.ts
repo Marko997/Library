@@ -17,6 +17,14 @@ export class LibrarianService {
     getAll(): Promise<Librarian[]>{
         return this.librarian.find();
     }
+    async getByUsername (usernameS: string):Promise<Librarian | null>{
+        const librarian = await this.librarian.findOne({
+            username: usernameS
+        });
+        if(librarian){
+            return librarian;
+        }
+    }
 
     getById(id: number): Promise<Librarian>{
         return this.librarian.findOne(id);

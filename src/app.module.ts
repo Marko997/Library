@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { AppController } from './controllers/app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConfiguration } from '../config/database.configuration';
@@ -26,6 +26,8 @@ import { ReservationController } from './controllers/api/reservation.controller'
 import { ReservationService } from './services/reservation/reservation.service';
 import { StudentController } from './controllers/api/student.controller';
 import { StudentService } from './services/student/student.service';
+import { AuthController } from './controllers/api/auth.controller';
+import { AuthMiddleware } from './middlewares/auth.middleware';
 
 
 
@@ -69,7 +71,8 @@ import { StudentService } from './services/student/student.service';
     LoanController,
     PhotoController,
     ReservationController,
-    StudentController
+    StudentController,
+    AuthController,
   ],
   providers: [
     LibrarianService,
@@ -82,4 +85,11 @@ import { StudentService } from './services/student/student.service';
     StudentService
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .exclude('auth/*')
+      .forRoutes('api/*')
+  }
+}
