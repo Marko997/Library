@@ -84,6 +84,9 @@ import { AuthMiddleware } from './middlewares/auth.middleware';
     ReservationService,
     StudentService
   ],
+  exports:[
+    LibrarianService,
+  ]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

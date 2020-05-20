@@ -1,10 +1,11 @@
-import { NestMiddleware, HttpException, HttpStatus } from "@nestjs/common";
+import { NestMiddleware, HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { NextFunction, Request, Response } from "express";
 import { LibrarianService } from "../services/librarian/librarian.service";
 import * as jwt from 'jsonwebtoken';
 import { JwtDataLibrarianDto } from "../dtos/librarian/jwt.data.librarian.dto";
 import { jwtSecret } from "../../config/jwt.secret";
 
+@Injectable()
 export class AuthMiddleware implements NestMiddleware{
     constructor(private readonly librarianService: LibrarianService){}
     
@@ -18,7 +19,15 @@ export class AuthMiddleware implements NestMiddleware{
 
         const token = req.headers.authorization;
 
-        const jwtData: JwtDataLibrarianDto = jwt.verify(token, jwtSecret);
+        const tokenParts = token.split(' ');
+        if(tokenParts.length !==2){
+            throw new HttpException('Bad token found', HttpStatus.UNAUTHORIZED);
+
+        }
+
+        const tokenString = tokenParts[1];
+
+        const jwtData: JwtDataLibrarianDto = jwt.verify(tokenString, jwtSecret);
         if(!jwtData){
             throw new HttpException('Bad token found', HttpStatus.UNAUTHORIZED);
         }
