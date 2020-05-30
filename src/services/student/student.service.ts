@@ -5,7 +5,7 @@ import { AddStudentDto } from '../../dtos/student/add.student.dto';
 import { EditStudentDto } from '../../dtos/student/edit.student.dto';
 import * as crypto from 'crypto';
 import { ApiResponse } from '../../misc/api.response.class';
-import { Student } from '../../../entities/student.entity';
+import { Student } from '../../entities/student.entity';
 
 
 @Injectable()

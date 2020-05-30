@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Put, Body, Post } from "@nestjs/common";
 import { LibrarianService } from "../../../src/services/librarian/librarian.service";
-import { Librarian } from "../../../entities/librarian.entity";
+import { Librarian } from "../../entities/librarian.entity";
 import { AddLibrarianDto } from "../../dtos/librarian/add.librarian.dto";
 import { EditLibrarianDto } from "../../dtos/librarian/edit.librarian.dto";
 import { ApiResponse } from "../../misc/api.response.class";

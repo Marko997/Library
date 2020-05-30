@@ -4,7 +4,7 @@ import { EditStudentDto } from "../../dtos/student/edit.student.dto";
 import { ApiResponse } from "../../misc/api.response.class";
 import { async } from "rxjs/internal/scheduler/async";
 import { StudentService } from "../../services/student/student.service";
-import { Student } from "../../../entities/student.entity";
+import { Student } from "../../entities/student.entity";
 
 
 @Controller('api/student')

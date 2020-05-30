@@ -1,5 +1,5 @@
 import { Controller } from "@nestjs/common";
-import { Author } from "../../../entities/author.entity";
+import { Author } from "../../entities/author.entity";
 import { Crud } from "@nestjsx/crud";
 import { AuthorService } from "../../services/author/author.service";
 

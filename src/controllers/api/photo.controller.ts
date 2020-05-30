@@ -1,5 +1,5 @@
 import { Controller } from "@nestjs/common";
-import { Photo } from "../../../entities/photo.entity";
+import { Photo } from "../../entities/photo.entity";
 import { Crud } from "@nestjsx/crud";
 import { PhotoService } from "../../services/photo/photo.service";
 

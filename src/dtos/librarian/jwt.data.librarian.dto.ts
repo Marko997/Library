@@ -1,7 +1,7 @@
 export class JwtDataLibrarianDto {
     librarianId: number;
     username: string;
-    ext: number;
+    exp: number;
     ip: string;
     ua:string;
 
@@ -10,7 +10,7 @@ export class JwtDataLibrarianDto {
         return{
             librarianId: this.librarianId,
             username: this.username,
-            ext: this.ext,
+            exp: this.exp,
             ip: this.ip,
             ua: this.ua
         }

@@ -1,7 +1,7 @@
 import { Controller } from "@nestjs/common";
 import { Crud } from "@nestjsx/crud";
 import { LoanService } from "../../services/loan/loan.service";
-import { Loan } from "../../../entities/loan.entity";
+import { Loan } from "../../entities/loan.entity";
 
 @Controller('api/loan')
 @Crud({

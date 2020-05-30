@@ -1,14 +1,14 @@
 import { Controller, Post, Body, Param, UseInterceptors, UploadedFile, Req } from "@nestjs/common";
 import { Crud } from "@nestjsx/crud";
 import { BookService } from "../../services/book/book.service";
-import { Book } from "../../../entities/book.entity";
+import { Book } from "../../entities/book.entity";
 import { AddBookDto } from "../../dtos/book/add.book.dto";
 import { ApiResponse } from "../../misc/api.response.class";
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from "multer";
 import { StorageConfig } from "../../../config/storage.config";
 import { PhotoService } from "../../services/photo/photo.service";
-import { Photo } from "../../../entities/photo.entity";
+import { Photo } from "../../entities/photo.entity";
 import * as fileType from 'file-type';
 import * as fs from 'fs';
 import * as sharp from 'sharp';
@@ -52,7 +52,7 @@ export class BookController{ //dodan u app.module
     @UseInterceptors(
         FileInterceptor('photo',{
             storage: diskStorage({
-                destination: StorageConfig.photoDestination,
+                destination: StorageConfig.photo.destination,
                 filename: (req, file, callback) =>{
 
                     let original: string = file.originalname;
@@ -95,7 +95,7 @@ export class BookController{ //dodan u app.module
             },
             limits: {
                 files:1,
-                fieldSize: StorageConfig.photoMaxFileSize,
+                fieldSize: StorageConfig.photo.maxSize,
             }
 
         })
@@ -125,8 +125,8 @@ export class BookController{ //dodan u app.module
             return new ApiResponse ('error',-4002, 'Bad file content type!');
         }
 
-        await this.createThumb(photo);
-        await this.createSmallImage(photo);
+        await this.createResizedImage(photo,StorageConfig.photo.resize.thumb);
+        await this.createResizedImage(photo,StorageConfig.photo.resize.small);
 
         const newPhoto: Photo = new Photo();
         newPhoto.bookId = bookId;
@@ -141,40 +141,24 @@ export class BookController{ //dodan u app.module
 
     }
 
-    async createThumb(photo){
+    async createResizedImage(photo,resizeSettings){
         const originalFilePath = photo.path;
         const fileName = photo.filename;
 
-        const destinationFilePath = StorageConfig.photoDestination + "thumb/"+fileName;
+        const destinationFilePath = StorageConfig.photo.destination 
+        + resizeSettings.thumb.directory
+        + fileName;
 
         await sharp(originalFilePath)
             .resize({
                 fit: 'cover',
-                width: StorageConfig.photoThumbSize.width,
-                height: StorageConfig.photoThumbSize.height,
+                width: resizeSettings.width,
+                height: resizeSettings.height,
                 background: {
                     r: 255, g:255, b:255, aplha:0.0
                 }
             })
             .toFile(destinationFilePath);
     }
-
-    async createSmallImage(photo){
-        const originalFilePath = photo.path;
-        const fileName = photo.filename;
-
-        const destinationFilePath = StorageConfig.photoDestination + "small/"+fileName;
-
-        await sharp(originalFilePath)
-            .resize({
-                fit: 'cover',
-                width: StorageConfig.photoSmallSize.width,
-                height: StorageConfig.photoSmallSize.height,
-                background: {
-                    r: 255, g:255, b:255, aplha:0.0
-                }
-            })
-            .toFile(destinationFilePath);
     
-    }
 }
