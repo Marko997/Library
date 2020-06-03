@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Param, UseInterceptors, UploadedFile, Req, Delete } from "@nestjs/common";
+import { Controller, Post, Body, Param, UseInterceptors, UploadedFile, Req, Delete, Patch } from "@nestjs/common";
 import { Crud } from "@nestjsx/crud";
 import { BookService } from "../../services/book/book.service";
 import { Book } from "../../entities/book.entity";
@@ -12,6 +12,7 @@ import { Photo } from "../../entities/photo.entity";
 import * as fileType from 'file-type';
 import * as fs from 'fs';
 import * as sharp from 'sharp';
+import { EditBookDto } from "src/dtos/book/edit.book.dto";
 
 @Controller('api/book')
 @Crud({
@@ -34,6 +35,14 @@ import * as sharp from 'sharp';
                 eager:true
             }
         }
+    },
+
+    routes:{
+        exclude: [
+            'updateOneBase',
+            'deleteOneBase',
+            'replaceOneBase',
+        ]
     }
 })
 export class BookController{ //dodan u app.module
@@ -46,6 +55,11 @@ export class BookController{ //dodan u app.module
     createFull(@Body() data: AddBookDto): Promise<Book | ApiResponse> {
         return this.service.createFullBook(data);
     
+    }
+
+    @Patch(':id') //http//localhost:3000/api/book/5
+    editFullBook(@Param('id') id: number, @Body() data: EditBookDto){
+        return this.service.editFullBook(id,data)
     }
 
     @Post(':id/uploadPhoto/') // POST http://localhost:3000/api/article/:id/uploadPhoto/
