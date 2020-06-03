@@ -25,6 +25,13 @@ import { CategoryService } from "../../services/category/category.service";
                 },
                 
             }
+        },
+        routes:{
+            exclude: [
+                'updateOneBase',
+                'deleteOneBase',
+                'replaceOneBase',
+            ]
         }
     
 })

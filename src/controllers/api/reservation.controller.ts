@@ -17,9 +17,22 @@ import { Reservation } from "../../entities/reservation.entity";
     },
         query:{
             join:{
+                student:{
+                    eager: true,
+                },
+                book:{
+                    eager:true
+                }
                 
                 
             }
+        },
+        routes:{
+            exclude: [
+                'updateOneBase',
+                'deleteOneBase',
+                'replaceOneBase',
+            ]
         }
     
 })

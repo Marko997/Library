@@ -33,6 +33,10 @@ export class StudentService {
         const newStudent: Student = new Student();
         newStudent.username = data.username;
         newStudent.passwordHash = passwordHashString;
+        newStudent.forename = data.forename;
+        newStudent.surename = data.surename;
+        newStudent.phoneNumber = data.phoneNumber;
+        newStudent.classNumber = data.classNumber;
 
         return new Promise((resolve)=>{
             this.student.save(newStudent)
@@ -64,6 +68,8 @@ export class StudentService {
 
 
         oldStudent.passwordHash = passwordHashString;
+        oldStudent.phoneNumber= data.phonenumber;
+        oldStudent.classNumber= data.classNumber;
 
         return this.student.save(oldStudent);
     }

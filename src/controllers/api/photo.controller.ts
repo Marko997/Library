@@ -17,9 +17,18 @@ import { PhotoService } from "../../services/photo/photo.service";
     },
         query:{
             join:{
-                
+                book:{
+                    eager:true
+                }
                 
             }
+        },
+        routes:{
+            exclude: [
+                'updateOneBase',
+                'deleteOneBase',
+                'replaceOneBase',
+            ]
         }
     
 })

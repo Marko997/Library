@@ -1,3 +1,5 @@
-export class EditStudentDto {
+export class EditStudentDto{
     password: string;
+    phonenumber: string;
+    classNumber:string;
 }

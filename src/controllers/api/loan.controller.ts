@@ -17,9 +17,24 @@ import { Loan } from "../../entities/loan.entity";
     },
         query:{
             join:{
-                
+                student:{
+                    eager: true,
+                },
+                librarian:{
+                    eager:true
+                },
+                book:{
+                    eager:true
+                }
                 
             }
+        },
+        routes:{
+            exclude: [
+                'updateOneBase',
+                'deleteOneBase',
+                'replaceOneBase',
+            ]
         }
     
 })

@@ -20,6 +20,13 @@ import { AuthorService } from "../../services/author/author.service";
                 
                 
             }
+        },
+        routes:{
+            exclude: [
+                'updateOneBase',
+                'deleteOneBase',
+                'replaceOneBase',
+            ]
         }
     
 })
