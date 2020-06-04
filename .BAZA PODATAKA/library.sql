@@ -50,14 +50,15 @@ CREATE TABLE IF NOT EXISTS `book` (
   KEY `fk_book_author_id` (`author_id`),
   CONSTRAINT `fk_book_author_id` FOREIGN KEY (`author_id`) REFERENCES `author` (`author_id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_book_category_id` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table library.book: ~0 rows (approximately)
 DELETE FROM `book`;
 /*!40000 ALTER TABLE `book` DISABLE KEYS */;
 INSERT INTO `book` (`book_id`, `title`, `category_id`, `author_id`, `excerpt`, `description`, `isbn`, `status`) VALUES
-	(3, 'Njegovo srce', 1, 1, 'Kratak opis...', 'Duzi opis...', '213', 'avaiable'),
-	(4, 'Udata do ponedeljka', 1, 2, 'Kratak ops...', 'Duzi opis..', '123213', 'avaiable');
+	(3, 'Njegova devojka2', 1, 1, 'Kratak opis..', 'Duzi opis....', '123555555', 'lost'),
+	(4, 'Udata do ponedeljka', 1, 2, 'Kratak ops...', 'Duzi opis..', '123213', 'avaiable'),
+	(5, 'Njegova devojka', 1, 1, 'Kratak opis..', 'Duzi opis....', '123555555', 'lost');
 /*!40000 ALTER TABLE `book` ENABLE KEYS */;
 
 -- Dumping structure for table library.category
@@ -91,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `librarian` (
 DELETE FROM `librarian`;
 /*!40000 ALTER TABLE `librarian` DISABLE KEYS */;
 INSERT INTO `librarian` (`librarian_id`, `username`, `password_hash`) VALUES
-	(1, 'MarkoS', 'B46B55D15FA5347621DBB6BA72BDDC0D9E42BD5360086D5AC92D4E7B46A2AFD763D81CAD775BAEDF7ADC991DA9C351DA703C0BBDA56C5C14B2B2047AFBA833F4'),
+	(1, 'MarkoS', 'CC4F60976B7E97AA6842A8C87BF213B81FFD2FE72334A54B4251D9A4A803237755684B569DB779BD074F24778BBD887DEE8C9B8123E935678F6FDC97BE7AD12D'),
 	(4, 'pperic', '0DCC617B3BEF102B2B55B9C4275C7A8924E825DBC4AEF3B69D40550D865CF67DCF5399A5FFAB74CF4D9C737DF73C3D2BEC03E21AB5B62B1DBB200ADF40AD5C88'),
 	(6, 'admin', 'C7AD44CBAD762A5DA0A452F9E854FDC1E0E7A52A38015F23F3EAB1D80B931DD472634DFAC71CD34EBC35D16AB7FB8A90C81F975113D6C7538DC69DD8DE9077EC');
 /*!40000 ALTER TABLE `librarian` ENABLE KEYS */;
@@ -114,11 +115,13 @@ CREATE TABLE IF NOT EXISTS `loan` (
   CONSTRAINT `fk_loan_book_id` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`),
   CONSTRAINT `fk_loan_librarian_id` FOREIGN KEY (`librarian_id`) REFERENCES `librarian` (`librarian_id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_loan_student_id` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table library.loan: ~0 rows (approximately)
 DELETE FROM `loan`;
 /*!40000 ALTER TABLE `loan` DISABLE KEYS */;
+INSERT INTO `loan` (`loan_id`, `student_id`, `librarian_id`, `created_at`, `expected_to_be_returned_at`, `status`, `returned_at`, `book_id`) VALUES
+	(1, 1, 1, '2020-06-03 18:54:41', '2020-06-15 18:54:45', 'pending', '2020-06-03 18:55:27', 3);
 /*!40000 ALTER TABLE `loan` ENABLE KEYS */;
 
 -- Dumping structure for table library.photo
@@ -131,9 +134,9 @@ CREATE TABLE IF NOT EXISTS `photo` (
   UNIQUE KEY `uq_photo_image_path` (`image_path`),
   KEY `fk_photo_book_id` (`book_id`),
   CONSTRAINT `fk_photo_book_id` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table library.photo: ~0 rows (approximately)
+-- Dumping data for table library.photo: ~1 rows (approximately)
 DELETE FROM `photo`;
 /*!40000 ALTER TABLE `photo` DISABLE KEYS */;
 INSERT INTO `photo` (`photo_id`, `book_id`, `image_path`) VALUES
@@ -153,11 +156,13 @@ CREATE TABLE IF NOT EXISTS `reservation` (
   KEY `fk_reservation_book_id` (`book_id`),
   CONSTRAINT `fk_reservation_book_id` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_reservation_student_id` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table library.reservation: ~0 rows (approximately)
 DELETE FROM `reservation`;
 /*!40000 ALTER TABLE `reservation` DISABLE KEYS */;
+INSERT INTO `reservation` (`reservation_id`, `student_id`, `book_id`, `status`, `reserved_at`) VALUES
+	(1, 1, 3, 'pending', '2020-06-03 18:54:26');
 /*!40000 ALTER TABLE `reservation` ENABLE KEYS */;
 
 -- Dumping structure for table library.student
@@ -173,11 +178,14 @@ CREATE TABLE IF NOT EXISTS `student` (
   PRIMARY KEY (`student_id`),
   UNIQUE KEY `uq_student_username` (`username`),
   UNIQUE KEY `uq_student_phone_number` (`phone_number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table library.student: ~0 rows (approximately)
+-- Dumping data for table library.student: ~2 rows (approximately)
 DELETE FROM `student`;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
+INSERT INTO `student` (`student_id`, `username`, `password_hash`, `forename`, `surename`, `phone_number`, `class_number`) VALUES
+	(1, 'student1', 'CC4F60976B7E97AA6842A8C87BF213B81FFD2FE72334A54B4251D9A4A803237755684B569DB779BD074F24778BBD887DEE8C9B8123E935678F6FDC97BE7AD12D', 'Petar', 'Peric', '0621345678', '6-7'),
+	(3, 'student2', '40B8275B1AB04631A2E26AD78510755845942E3CCE55ECD44AB63D60C68205F57B0D60CD36676188AF28C31FC0EE6688447DC774AB661D5890A12AB480629E7E', 'Marko', 'Markovic', '0612345678', '5-6');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
