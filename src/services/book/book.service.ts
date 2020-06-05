@@ -54,6 +54,7 @@ export class BookService extends TypeOrmCrudService<Book>{
             return new ApiResponse('error',-5002,'Could not save edited book data!');
         }
 
+        return this.book.findOne(savedBook.bookId, { relations: [ 'category', 'author', ] });
 
     }
 }

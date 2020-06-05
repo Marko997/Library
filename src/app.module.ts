@@ -86,6 +86,7 @@ import { AuthMiddleware } from './middlewares/auth.middleware';
   ],
   exports:[
     LibrarianService,
+    StudentService,
   ]
 })
 export class AppModule implements NestModule {
