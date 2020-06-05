@@ -3,6 +3,8 @@ export const StorageConfig = {
 
     photo: {
         destination: '../storage/photos/',
+        urlPrefix: '/assets/photos',
+        maxAge: 1000*60*60*24*7, //trajanje 7 dana
         maxSize: 1024*1024*3, // 3MB maksimalna velicina slike
         resize: {
             thumb: {
