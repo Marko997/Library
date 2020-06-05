@@ -2,12 +2,15 @@ import { NestMiddleware, HttpException, HttpStatus, Injectable } from "@nestjs/c
 import { NextFunction, Request, Response } from "express";
 import { LibrarianService } from "../services/librarian/librarian.service";
 import * as jwt from 'jsonwebtoken';
-import { JwtDataLibrarianDto } from "../dtos/librarian/jwt.data.librarian.dto";
+import { JwtDataDto } from "../dtos/auth/jwt.data.dto";
 import { jwtSecret } from "../../config/jwt.secret";
+import { StudentService } from "src/services/student/student.service";
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware{
-    constructor(private readonly librarianService: LibrarianService){}
+    constructor(public librarianService: LibrarianService,
+                public studentService: StudentService
+        ){}
     
     
     async use(req: Request, res: Response, next: NextFunction){
@@ -27,7 +30,7 @@ export class AuthMiddleware implements NestMiddleware{
 
         const tokenString = tokenParts[1];
 
-        let jwtData: JwtDataLibrarianDto;
+        let jwtData: JwtDataDto;
 
         try{
         jwtData = jwt.verify(tokenString, jwtSecret);
@@ -47,11 +50,19 @@ export class AuthMiddleware implements NestMiddleware{
             throw new HttpException('Bad token found', HttpStatus.UNAUTHORIZED);
         }
 
-        const librarian = await this.librarianService.getById(jwtData.librarianId);
+        if(jwtData.role === "librarian"){
+        const librarian = await this.librarianService.getById(jwtData.id);
         if(!librarian){
             throw new HttpException('Account not found', HttpStatus.UNAUTHORIZED);
             
         }
+    }else if (jwtData.role ==="student"){
+        const student = await this.studentService.getById(jwtData.id);
+        if(!student){
+            throw new HttpException('Account not found', HttpStatus.UNAUTHORIZED);
+            
+        }
+    }
 
 
         const trenutniTimestamp = new Date().getTime()/1000;

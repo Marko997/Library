@@ -18,8 +18,17 @@ export class StudentService {
         return this.student.find();
     }
 
-    getById(id: number): Promise<Student>{
-        return this.student.findOne(id);
+    async getById(id: number): Promise<Student>{
+        return await this.student.findOne(id);
+    }
+
+    async getByUsername (usernameS: string):Promise<Student | null>{
+        const student = await this.student.findOne({
+            username: usernameS
+        });
+        if(student){
+            return student;
+        }
     }
 
     add(data: AddStudentDto ): Promise<Student | ApiResponse>{

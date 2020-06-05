@@ -1,5 +1,6 @@
-export class JwtDataLibrarianDto {
-    librarianId: number;
+export class JwtDataDto {
+    role: "librarian" | "student";
+    id: number;
     username: string;
     exp: number;
     ip: string;
@@ -8,7 +9,8 @@ export class JwtDataLibrarianDto {
     toPlainObject()
     {
         return{
-            librarianId: this.librarianId,
+            role: this.role,
+            id: this.id,
             username: this.username,
             exp: this.exp,
             ip: this.ip,
