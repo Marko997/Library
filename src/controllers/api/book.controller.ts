@@ -40,11 +40,23 @@ import { AllowToRoles } from "src/misc/allow.to.roles.descriptor";
     },
 
     routes:{
-        exclude: [
-            'updateOneBase',
-            'deleteOneBase',
-            'replaceOneBase',
-        ]
+        only: [
+            "getManyBase",
+            "getOneBase",
+            
+        ],
+        createOneBase:{
+            decorators: [
+                UseGuards(RoleCheckedGuard),
+                AllowToRoles('librarian'),
+            ],
+        },
+        createManyBase:{
+            decorators: [
+                UseGuards(RoleCheckedGuard),
+                AllowToRoles('librarian'),
+            ],
+        },
     }
 })
 export class BookController{ //dodan u app.module

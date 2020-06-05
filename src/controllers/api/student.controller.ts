@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Put, Body, Post, UseGuards } from "@nestjs/common";
+import { Controller, Get, Param, Put, Body, Post, UseGuards, Patch } from "@nestjs/common";
 import { AddStudentDto } from "../../dtos/student/add.student.dto";
 import { EditStudentDto } from "../../dtos/student/edit.student.dto";
 import { ApiResponse } from "../../misc/api.response.class";
@@ -41,16 +41,16 @@ export class StudentController {
     
   }
   
-// PUT http://localhost:3000/api/student
-@Put()  
+// POST http://localhost:3000/api/student
+@Post()  
 @UseGuards(RoleCheckedGuard)
 @AllowToRoles('librarian')
 add( @Body() data:AddStudentDto): Promise<Student | ApiResponse>{
     return this.studentService.add(data);
 }
   
-// POST http://localhost:3000/api/student/1
-@Post(':id')
+// PATCH http://localhost:3000/api/student/1
+@Patch(':id')
 @UseGuards(RoleCheckedGuard)
 @AllowToRoles('librarian')
 edit(@Param('id') id: number, @Body() data: EditStudentDto): Promise<Student | ApiResponse>{

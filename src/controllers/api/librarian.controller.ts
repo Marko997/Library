@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Put, Body, Post, SetMetadata, UseGuards } from "@nestjs/common";
+import { Controller, Get, Param, Put, Body, Post, SetMetadata, UseGuards, Patch } from "@nestjs/common";
 import { LibrarianService } from "../../../src/services/librarian/librarian.service";
 import { Librarian } from "../../entities/librarian.entity";
 import { AddLibrarianDto } from "../../dtos/librarian/add.librarian.dto";
@@ -41,16 +41,16 @@ export class LibrarianController {
     
   }
   
-// PUT http://localhost:3000/api/librarian
-@Put()  
+// POST http://localhost:3000/api/librarian
+@Post()  
 @UseGuards(RoleCheckedGuard)
 @AllowToRoles('librarian')
 add( @Body() data:AddLibrarianDto): Promise<Librarian | ApiResponse>{
     return this.librarianService.add(data);
 }
   
-// POST http://localhost:3000/api/librarian/1
-@Post(':id')
+// PATCH http://localhost:3000/api/librarian/1
+@Patch(':id')
 @UseGuards(RoleCheckedGuard)
 @AllowToRoles('librarian')
 edit(@Param('id') id: number, @Body() data: EditLibrarianDto): Promise<Librarian | ApiResponse>{
