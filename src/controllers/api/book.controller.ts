@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Param, UseInterceptors, UploadedFile, Req, Delete, Patch } from "@nestjs/common";
+import { Controller, Post, Body, Param, UseInterceptors, UploadedFile, Req, Delete, Patch, UseGuards } from "@nestjs/common";
 import { Crud } from "@nestjsx/crud";
 import { BookService } from "../../services/book/book.service";
 import { Book } from "../../entities/book.entity";
@@ -13,6 +13,8 @@ import * as fileType from 'file-type';
 import * as fs from 'fs';
 import * as sharp from 'sharp';
 import { EditBookDto } from "src/dtos/book/edit.book.dto";
+import { RoleCheckedGuard } from "src/misc/role.checked.guard";
+import { AllowToRoles } from "src/misc/allow.to.roles.descriptor";
 
 @Controller('api/book')
 @Crud({
@@ -52,17 +54,23 @@ export class BookController{ //dodan u app.module
         ){}
 
     @Post('createFull')
+    @UseGuards(RoleCheckedGuard)
+    @AllowToRoles('librarian')
     createFull(@Body() data: AddBookDto): Promise<Book | ApiResponse> {
         return this.service.createFullBook(data);
     
     }
 
     @Patch(':id') //http//localhost:3000/api/book/5
+    @UseGuards(RoleCheckedGuard)
+    @AllowToRoles('librarian')
     editFullBook(@Param('id') id: number, @Body() data: EditBookDto){
         return this.service.editFullBook(id,data)
     }
 
     @Post(':id/uploadPhoto/') // POST http://localhost:3000/api/article/:id/uploadPhoto/
+    @UseGuards(RoleCheckedGuard)
+    @AllowToRoles('librarian')
     @UseInterceptors(
         FileInterceptor('photo',{
             storage: diskStorage({
@@ -114,6 +122,7 @@ export class BookController{ //dodan u app.module
 
         })
     )
+    
     async uploadPhoto(
         @Param('id') bookId: number, 
         @UploadedFile() photo,
@@ -176,6 +185,8 @@ export class BookController{ //dodan u app.module
     }
     //http://localhost:3000/api/book/1/deletePhoto/30
     @Delete(':bookId/deletePhoto/:photoId')
+    @UseGuards(RoleCheckedGuard)
+    @AllowToRoles('librarian')
         public async deletePhoto(
             @Param('bookId') bookId: number,
             @Param('photoId') photoId: number,)

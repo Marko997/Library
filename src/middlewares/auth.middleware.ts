@@ -72,6 +72,9 @@ export class AuthMiddleware implements NestMiddleware{
 
         }
 
+
+        req.token = jwtData;
+
         next();
     }
 }
