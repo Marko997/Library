@@ -176,12 +176,13 @@ export class BookController{ //dodan u app.module
 
     }
 
-    async createResizedImage(photo,resizeSettings){
+    async createResizedImage(photo, resizeSettings){
         const originalFilePath = photo.path;
         const fileName = photo.filename;
 
-        const destinationFilePath = StorageConfig.photo.destination 
-        + resizeSettings.thumb.directory
+        const destinationFilePath = 
+        StorageConfig.photo.destination 
+        + resizeSettings.directory
         + fileName;
 
         await sharp(originalFilePath)
@@ -189,9 +190,7 @@ export class BookController{ //dodan u app.module
                 fit: 'cover',
                 width: resizeSettings.width,
                 height: resizeSettings.height,
-                background: {
-                    r: 255, g:255, b:255, aplha:0.0
-                }
+                
             })
             .toFile(destinationFilePath);
     }

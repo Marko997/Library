@@ -1,9 +1,12 @@
-import { Controller, UseGuards } from "@nestjs/common";
+import { Controller, UseGuards, Post, Body, Param, Patch } from "@nestjs/common";
 import { Crud } from "@nestjsx/crud";
 import { LoanService } from "../../services/loan/loan.service";
 import { Loan } from "../../entities/loan.entity";
 import { RoleCheckedGuard } from "src/misc/role.checked.guard";
 import { AllowToRoles } from "src/misc/allow.to.roles.descriptor";
+import { AddLoanDto } from "src/dtos/Loan/add.loan.dto";
+import { ApiResponse } from "src/misc/api.response.class";
+import { EditLoanDto } from "src/dtos/Loan/edit.loan.dto";
 
 @Controller('api/loan')
 @Crud({
@@ -25,7 +28,7 @@ import { AllowToRoles } from "src/misc/allow.to.roles.descriptor";
                 librarian:{
                     eager:true
                 },
-                book:{
+                loan:{
                     eager:true
                 }
                 
@@ -76,5 +79,23 @@ import { AllowToRoles } from "src/misc/allow.to.roles.descriptor";
     
 })
 export class LoanController{ //dodan u app.module
-    constructor(public service: LoanService){}
+    constructor(
+        public service: LoanService,
+        
+        ){}
+
+    @Post('createFull')// POST http//localhost:3000/api/loan/createFull
+    @UseGuards(RoleCheckedGuard)
+    @AllowToRoles('librarian')
+    createFull(@Body() data: AddLoanDto): Promise<Loan | ApiResponse> {
+        return this.service.createFullLoan(data);
+    
+    }
+
+    @Patch(':id') // PATCH http//localhost:3000/api/loan/5
+    @UseGuards(RoleCheckedGuard)
+    @AllowToRoles('librarian')
+    editFullLoan(@Param('id') id: number, @Body() data: EditLoanDto){
+        return this.service.editFullLoan(id,data)
+    }
 }
