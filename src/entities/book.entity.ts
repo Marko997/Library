@@ -12,6 +12,8 @@ import { Category } from "./category.entity";
 import { Photo } from "./photo.entity";
 import { Reservation } from "./reservation.entity";
 import { Loan } from "./loan.entity";
+import * as Validator from 'class-validator';
+import { BookStatus } from "src/types/book.status.enum";
 
 @Index("fk_book_category_id", ["categoryId"], {})
 @Index("fk_book_author_id", ["authorId"], {})
@@ -21,6 +23,9 @@ export class Book {
   bookId: number;
 
   @Column( { type: "varchar",length: 128 })
+  @Validator.IsNotEmpty()
+  @Validator.IsString()
+  @Validator.Length(0,128)
   title: string;
 
   @Column( {type: "int",name: "category_id", unsigned: true })
@@ -30,12 +35,21 @@ export class Book {
   authorId: number;
 
   @Column( {type: "varchar", length: 255 })
+  @Validator.IsNotEmpty()
+  @Validator.IsString()
+  @Validator.Length(10,255)
   excerpt: string;
 
   @Column( {type: "text"})
+  @Validator.IsNotEmpty()
+  @Validator.IsString()
+  @Validator.Length(64,10000)
   description: string;
 
   @Column( {type: "varchar", length: 13 })
+  @Validator.IsNotEmpty()
+  @Validator.IsString()
+  @Validator.Length(2,13)
   isbn: string;
 
   @Column( {
@@ -51,6 +65,9 @@ export class Book {
     ],
     default: () => "'avaiable'",
   })
+  @Validator.IsNotEmpty()
+  @Validator.IsString()
+  @Validator.IsEnum(BookStatus)
   status:
     | "rented"
     | "lost"

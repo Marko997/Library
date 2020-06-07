@@ -77,7 +77,7 @@ export class StudentService {
 
 
         oldStudent.passwordHash = passwordHashString;
-        oldStudent.phoneNumber= data.phonenumber;
+        oldStudent.phoneNumber= data.phoneNumber;
         oldStudent.classNumber= data.classNumber;
 
         return this.student.save(oldStudent);

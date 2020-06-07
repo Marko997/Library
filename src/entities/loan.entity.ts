@@ -9,6 +9,8 @@ import {
 import { Book } from "./book.entity";
 import { Librarian } from "./librarian.entity";
 import { Student } from "./student.entity";
+import * as Validator from "class-validator";
+import { LoanStatus } from "src/types/loan.status.enum";
 
 @Index("fk_loan_student_id", ["studentId"], {})
 @Index("fk_loan_librarian_id", ["librarianId"], {})
@@ -44,6 +46,10 @@ export class Loan {
     enum: ["pending", "loaned", "returned", "lost"],
     default: () => "'pending'",
   })
+  @Validator.IsNotEmpty()
+  @Validator.IsString()
+  @Validator.IsEnum(LoanStatus)
+
   status: "pending" | "loaned" | "returned" | "lost";
 
   @Column( {

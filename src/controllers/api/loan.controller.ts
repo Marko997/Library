@@ -4,9 +4,9 @@ import { LoanService } from "../../services/loan/loan.service";
 import { Loan } from "../../entities/loan.entity";
 import { RoleCheckedGuard } from "src/misc/role.checked.guard";
 import { AllowToRoles } from "src/misc/allow.to.roles.descriptor";
-import { AddLoanDto } from "src/dtos/Loan/add.loan.dto";
+import { AddLoanDto } from "src/dtos/loan/add.loan.dto";
 import { ApiResponse } from "src/misc/api.response.class";
-import { EditLoanDto } from "src/dtos/Loan/edit.loan.dto";
+import { EditLoanDto } from "src/dtos/loan/edit.loan.dto";
 
 @Controller('api/loan')
 @Crud({

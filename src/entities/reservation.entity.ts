@@ -8,6 +8,8 @@ import {
 } from "typeorm";
 import { Book } from "./book.entity";
 import { Student } from "./student.entity";
+import * as Validator from 'class-validator';
+import { ReservationStatus } from "src/types/reservation.status.enum";
 
 @Index("fk_reservation_student_id", ["studentId"], {})
 @Index("fk_reservation_book_id", ["bookId"], {})
@@ -31,6 +33,9 @@ export class Reservation {
     enum: ["pending", "loaned", "rejected"],
     default: () => "'pending'",
   })
+  @Validator.IsNotEmpty()
+  @Validator.IsString()
+  @Validator.IsEnum(ReservationStatus)
   status: "pending" | "loaned" | "rejected";
 
   @Column("timestamp", {

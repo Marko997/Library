@@ -4,8 +4,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Loan } from "../../entities/loan.entity";
 import { ApiResponse } from "src/misc/api.response.class";
-import { AddLoanDto } from "src/dtos/Loan/add.loan.dto";
-import { EditLoanDto } from "src/dtos/Loan/edit.loan.dto";
+import { AddLoanDto } from "src/dtos/loan/add.loan.dto";
+import { EditLoanDto } from "src/dtos/loan/edit.loan.dto";
 
 @Injectable()
 export class LoanService extends TypeOrmCrudService<Loan>{
