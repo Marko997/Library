@@ -15,6 +15,7 @@ import * as sharp from 'sharp';
 import { EditBookDto } from "src/dtos/book/edit.book.dto";
 import { RoleCheckedGuard } from "src/misc/role.checked.guard";
 import { AllowToRoles } from "src/misc/allow.to.roles.descriptor";
+import { BookSearchDto } from "src/dtos/book/book.search.dto";
 
 @Controller('api/book')
 @Crud({
@@ -225,5 +226,11 @@ export class BookController{ //dodan u app.module
             }
     
     
+    @Post('search') 
+    @UseGuards(RoleCheckedGuard)
+    @AllowToRoles('librarian','student')
+    async search(@Body() data: BookSearchDto): Promise<Book[]>{
+        return await this.service.search(data);
+    }
     
 }
