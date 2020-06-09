@@ -9,6 +9,6 @@ export class AddReservationDto{
     @Validator.IsNotEmpty()
     @Validator.IsString()
     @Validator.IsEnum(ReservationStatus)
-    status: 'pending' | 'loaned' | 'rejected';
+    status: "pending" | "loaned" | "rejected";
     
 }

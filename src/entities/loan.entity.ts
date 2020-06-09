@@ -49,7 +49,6 @@ export class Loan {
   @Validator.IsNotEmpty()
   @Validator.IsString()
   @Validator.IsEnum(LoanStatus)
-
   status: "pending" | "loaned" | "returned" | "lost";
 
   @Column( {

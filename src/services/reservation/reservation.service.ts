@@ -52,7 +52,27 @@ export class ReservationService extends TypeOrmCrudService<Reservation>{
             return new ApiResponse('error',-5002,'Could not save edited reservation data!');
         }
 
-        return this.reservation.findOne(savedReservation.reservationId, { relations: [ 'student', 'book', ] });
+        return this.getById(savedReservation.reservationId);
 
+    }
+
+    async getById(reservationId: number){
+        return await this.reservation.findOne(reservationId,{relations: [ 'student', 'book', ]});
+
+        
+    }
+
+    async changeStatus(reservationId: number, newStatus: "pending" | "loaned" | "rejected"){
+        const reservation = await this.getById(reservationId);
+
+        if(!reservation){
+            return new ApiResponse("error",-9001,"No such order found");
+            
+        }
+        reservation.status = newStatus;
+
+        await this.reservation.save(reservation);
+
+        return await this.getById(reservationId);
     }
 }
