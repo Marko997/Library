@@ -44,7 +44,7 @@ export class ReservationService extends TypeOrmCrudService<Reservation>{
         existingReservation.studentId = data.studentId;
         existingReservation.bookId = data.bookId;
         existingReservation.reservedAt = data.reserved_at;
-        existingReservation.status = data.status;
+        // existingReservation.status = data.status;
 
 
         const savedReservation = await this.reservation.save(existingReservation);
@@ -66,7 +66,7 @@ export class ReservationService extends TypeOrmCrudService<Reservation>{
         const reservation = await this.getById(reservationId);
 
         if(!reservation){
-            return new ApiResponse("error",-9001,"No such order found");
+            return new ApiResponse("error",-9001,"No such reservation found");
             
         }
         reservation.status = newStatus;

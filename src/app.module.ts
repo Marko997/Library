@@ -28,7 +28,6 @@ import { StudentController } from './controllers/api/student.controller';
 import { StudentService } from './services/student/student.service';
 import { AuthController } from './controllers/api/auth.controller';
 import { AuthMiddleware } from './middlewares/auth.middleware';
-import { LibrarianReservationController } from './controllers/api/librarian.reservation.controller';
 
 
 
@@ -74,7 +73,7 @@ import { LibrarianReservationController } from './controllers/api/librarian.rese
     ReservationController,
     StudentController,
     AuthController,
-    LibrarianReservationController
+    
   ],
   providers: [
     LibrarianService,

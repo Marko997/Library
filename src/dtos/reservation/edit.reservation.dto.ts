@@ -6,9 +6,9 @@ export class EditReservationDto{
     bookId: number;
     reserved_at: Date;
 
-    @Validator.IsNotEmpty()
-    @Validator.IsString()
-    @Validator.IsEnum(ReservationStatus)
-    status: 'pending' | 'loaned' | 'rejected';
+    // @Validator.IsNotEmpty()
+    // @Validator.IsString()
+    // @Validator.IsEnum(ReservationStatus)
+    // status: 'pending' | 'loaned' | 'rejected';
     
 }
