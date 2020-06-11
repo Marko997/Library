@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req } from "@nestjs/common";
+import { Controller, Post, Body, Req, HttpException, HttpStatus } from "@nestjs/common";
 import { LibrarianService } from "../../services/librarian/librarian.service";
 import { LoginLibrarianDto } from "../../dtos/librarian/login.librarian.dto";
 import { ApiResponse } from "../../misc/api.response.class";
@@ -10,6 +10,8 @@ import { Request } from "express";
 import { jwtSecret } from "../../../config/jwt.secret";
 import { StudentService } from "src/services/student/student.service";
 import { LoginStudentDto } from "src/dtos/student/login.student.dto";
+import { JwtRefreshDataDto } from "src/dtos/auth/jwt.refresh.dto";
+import { StudentRefreshTokenDto } from "src/dtos/auth/student.refresh.token.dto";
 
 @Controller('auth')
 export class AuthController{
@@ -36,11 +38,7 @@ export class AuthController{
         jwtData.role = "librarian";
         jwtData.id = librarian.librarianId;
         jwtData.username = librarian.username;
-
-        let sada = new Date();
-        sada.setDate(sada.getDate()+14);
-        const istekTimestamp = sada.getTime()/1000;
-        jwtData.exp = istekTimestamp;
+        jwtData.exp = this.getDatePlus(60*60*24*14);
         jwtData.ip = req.ip.toString();
         jwtData.ua = req.headers["user-agent"];
 
@@ -49,7 +47,9 @@ export class AuthController{
         const responseObject = new LoginInfoDto(
             librarian.librarianId,
             librarian.username,
-            token
+            token,
+            "",
+            "",
         );
             return new Promise(resolve=> resolve(responseObject));
     }
@@ -75,23 +75,108 @@ export class AuthController{
         jwtData.role = "student";
         jwtData.id = student.studentId;
         jwtData.username = student.username;
-
-        let sada = new Date();
-        sada.setDate(sada.getDate()+14);
-        const istekTimestamp = sada.getTime()/1000;
-        jwtData.exp = istekTimestamp;
+        jwtData.exp = this.getDatePlus(60*5);
         jwtData.ip = req.ip.toString();
         jwtData.ua = req.headers["user-agent"];
 
         let token: string = jwt.sign(jwtData.toPlainObject(),jwtSecret);
 
+        const jwtRefreshData = new JwtRefreshDataDto();
+        jwtRefreshData.role = jwtData.role;
+        jwtRefreshData.id = jwtData.id;
+        jwtRefreshData.exp = this.getDatePlus(60*60*24*31);
+        jwtRefreshData.ip = jwtData.ip;
+        jwtRefreshData.ua = jwtData.ua;
+
+        let refreshToken: string = jwt.sign(jwtRefreshData.toPlainObject(),jwtSecret);
+        
+
         const responseObject = new LoginInfoDto(
             student.studentId,
             student.username,
-            token
+            token,
+            refreshToken,
+            this.getIsoDate(jwtRefreshData.exp),
         );
+
+            await this.studentService.addToken(student.studentId,refreshToken,this.getDatabaseDateFormat(this.getIsoDate(jwtRefreshData.exp)))
+            
             return new Promise(resolve=> resolve(responseObject));
     }
 
+    @Post('student/refresh')
+    async studentTokenRefresh(@Req() req: Request, @Body() data: StudentRefreshTokenDto): Promise<LoginInfoDto | ApiResponse>{
+        const studentToken = await this.studentService.getStudentToken(data.token);
+
+        if(!studentToken){
+            return new ApiResponse("error", -10002, "No such refresh token!");
+        }
+
+        if(studentToken.isValid ===0) {
+            return new ApiResponse("error",-10003, "The token is not valid anymore!");
+        
+        }
+        const sada = new Date();
+        const datumIsteka = new Date(studentToken.expiresAt);
+
+        if(datumIsteka.getTime() < sada.getTime()){
+            return new ApiResponse("error",-10004, "The token has expired!");
+        }
+
+        let jwtRefreshData: JwtRefreshDataDto;
+
+        try{
+            jwtRefreshData = jwt.verify(data.token, jwtSecret);
+        }catch(e){
+            throw new HttpException('Bad token found!', HttpStatus.UNAUTHORIZED);
+        }
+
+        if(!jwtRefreshData){
+            throw new HttpException('Bad token found', HttpStatus.UNAUTHORIZED);
+        }
+        
+        if(jwtRefreshData.ip !== req.ip.toString()){
+            throw new HttpException('Bad token found', HttpStatus.UNAUTHORIZED);
+        }
+
+        if(jwtRefreshData.ua !== req.headers["user-agent"]){
+            throw new HttpException('Bad token found', HttpStatus.UNAUTHORIZED);
+        }
+
+        const jwtData = new JwtDataDto();
+        jwtData.role = jwtRefreshData.role;
+        jwtData.id = jwtRefreshData.id;
+        jwtData.username = jwtRefreshData.username;
+        jwtData.exp = this.getDatePlus(60*5);
+        jwtData.ip = jwtRefreshData.ip;
+        jwtData.ua = jwtRefreshData.ua;
+
+        let token: string = jwt.sign(jwtData.toPlainObject(),jwtSecret);
+
+        const responseObject = new LoginInfoDto(
+            jwtData.id,
+            jwtData.username,
+            token,
+            data.token, //refresh token
+            this.getIsoDate(jwtRefreshData.exp),
+        );
+
+        return responseObject;
+
+    }
+
+    private getDatePlus(numberOfSeconds: number){
+        return new Date().getTime()/1000 + numberOfSeconds;
+    }
+
+    private getIsoDate(timestamp: number){
+        const date = new Date();
+        date.setTime(timestamp*1000);
+        return date.toISOString();
+    }
+
+    private getDatabaseDateFormat(isoformat:string):string{
+        return isoformat.substr(0,19).replace('T',' ');
+    }
 
 }

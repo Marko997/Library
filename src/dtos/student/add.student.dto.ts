@@ -3,7 +3,7 @@ import * as Validator from 'class-validator';
 export class AddStudentDto{
     @Validator.IsNotEmpty()
     @Validator.IsString()
-    @Validator.Matches(/^[a-z][a-z0-9\.]{,30}[a-z0-9]$/)
+    // @Validator.Matches(/^[a-z][a-z0-9\.]{,30}[a-z0-9]$/)
     username: string;
 
     @Validator.IsNotEmpty()

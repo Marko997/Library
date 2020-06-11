@@ -28,6 +28,7 @@ import { StudentController } from './controllers/api/student.controller';
 import { StudentService } from './services/student/student.service';
 import { AuthController } from './controllers/api/auth.controller';
 import { AuthMiddleware } from './middlewares/auth.middleware';
+import { StudentToken } from './entities/student_token.entity';
 
 
 
@@ -48,7 +49,8 @@ import { AuthMiddleware } from './middlewares/auth.middleware';
         Loan,
         Photo,
         Reservation,
-        Student
+        Student,
+        StudentToken
       ]
     }),
     TypeOrmModule.forFeature([ 
@@ -59,7 +61,8 @@ import { AuthMiddleware } from './middlewares/auth.middleware';
       Loan,
       Photo,
       Reservation,
-      Student
+      Student,
+      StudentToken
     ])
   ],
   controllers: [

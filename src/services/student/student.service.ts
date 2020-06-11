@@ -6,12 +6,14 @@ import { EditStudentDto } from '../../dtos/student/edit.student.dto';
 import * as crypto from 'crypto';
 import { ApiResponse } from '../../misc/api.response.class';
 import { Student } from '../../entities/student.entity';
+import { StudentToken } from 'src/entities/student_token.entity';
 
 
 @Injectable()
 export class StudentService {
     constructor(
-        @InjectRepository(Student) private readonly student: Repository<Student> 
+        @InjectRepository(Student) private readonly student: Repository<Student>,
+        @InjectRepository(StudentToken) private readonly studentToken: Repository<StudentToken> 
     ){}
 
     getAll(): Promise<Student[]>{
@@ -81,5 +83,49 @@ export class StudentService {
         oldStudent.classNumber= data.classNumber;
 
         return this.student.save(oldStudent);
+    }
+
+    async addToken(studentId: number, token: string, expiresAt: string){
+        const studentToken = new StudentToken();
+        studentToken.studentId = studentId;
+        studentToken.token = token;
+        studentToken.expiresAt = expiresAt;
+
+        return await this.studentToken.save(studentToken);
+    }
+
+    async getStudentToken(token:string): Promise<StudentToken>{
+        return await this.studentToken.findOne({
+            token: token,
+        });
+    }
+
+    async invalidateToken(token:string): Promise<StudentToken |ApiResponse>{
+        const studentToken = await this.studentToken.findOne({
+            token:token,
+        });
+
+        if(!studentToken){
+            return new ApiResponse("error",-10001, "No such refersh token!");
+        }
+
+        studentToken.isValid = 0;
+
+        await this.studentToken.save(studentToken);
+
+        return await this.getStudentToken(token);
+    }
+
+    async invalidateStudentTokens(studentId:number): Promise<(StudentToken | ApiResponse)[]>{
+        const studentTokens = await this.studentToken.find({
+            studentId : studentId,
+        });
+
+        const results = [];
+        for(const studentToken of studentTokens){
+            results.push(this.invalidateToken(studentToken.token));
+        }
+
+        return results
     }
 }
