@@ -3,7 +3,7 @@ import * as Validator from 'class-validator';
 export class BookSearchDto {
     @Validator.IsOptional()
     @Validator.IsString()
-    @Validator.Length(1,128)
+    @Validator.Length(0,128)
     keywords: string;
 
     @Validator.IsOptional()

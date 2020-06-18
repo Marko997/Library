@@ -59,7 +59,7 @@ export class BookService extends TypeOrmCrudService<Book>{
 
     }
 
-    async search(data: BookSearchDto): Promise<Book[]>{
+    async search(data: BookSearchDto): Promise<Book[] | ApiResponse>{
         const builder = await this.book.createQueryBuilder("book");
 
         builder.where('book.categoryId = :categoryId',{categoryId: data.categoryId});
@@ -97,6 +97,10 @@ export class BookService extends TypeOrmCrudService<Book>{
         builder.take(perPage);
 
         let bookIds = await (await builder.getMany()).map(book => book.bookId);
+
+        if(bookIds.length ===0){
+            return new ApiResponse("ok",0,"No books found!")
+        }
 
         return await this.book.find({
             where: { bookId: In(bookIds)},

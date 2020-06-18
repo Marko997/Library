@@ -229,7 +229,7 @@ export class BookController{ //dodan u app.module
     @Post('search') 
     @UseGuards(RoleCheckedGuard)
     @AllowToRoles('librarian','student')
-    async search(@Body() data: BookSearchDto): Promise<Book[]>{
+    async search(@Body() data: BookSearchDto): Promise<Book[] | ApiResponse>{
         return await this.service.search(data);
     }
     
