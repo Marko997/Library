@@ -6,12 +6,14 @@ import { AddLibrarianDto } from '../../dtos/librarian/add.librarian.dto';
 import { EditLibrarianDto } from '../../dtos/librarian/edit.librarian.dto';
 import * as crypto from 'crypto';
 import { ApiResponse } from '../../misc/api.response.class';
+import { LibrarianToken } from 'src/entities/librarian_token.entity';
 
 
 @Injectable()
 export class LibrarianService {
     constructor(
-        @InjectRepository(Librarian) private readonly librarian: Repository<Librarian> 
+        @InjectRepository(Librarian) private readonly librarian: Repository<Librarian>,
+        @InjectRepository(LibrarianToken) private readonly librarianToken: Repository<LibrarianToken> 
     ){}
 
     getAll(): Promise<Librarian[]>{
@@ -74,5 +76,49 @@ export class LibrarianService {
         oldLibrarian.passwordHash = passwordHashString;
 
         return this.librarian.save(oldLibrarian);
+    }
+
+    async addToken(librarianId: number, token: string, expiresAt: string){
+        const librarianToken = new LibrarianToken();
+        librarianToken.librarianId = librarianId;
+        librarianToken.token = token;
+        librarianToken.expiresAt = expiresAt;
+
+        return await this.librarianToken.save(librarianToken);
+    }
+
+    async getLibrarianToken(token:string): Promise<LibrarianToken>{
+        return await this.librarianToken.findOne({
+            token: token,
+        });
+    }
+
+    async invalidateToken(token:string): Promise<LibrarianToken |ApiResponse>{
+        const librarianToken = await this.librarianToken.findOne({
+            token:token,
+        });
+
+        if(!librarianToken){
+            return new ApiResponse("error",-10001, "No such refersh token!");
+        }
+
+        librarianToken.isValid = 0;
+
+        await this.librarianToken.save(librarianToken);
+
+        return await this.getLibrarianToken(token);
+    }
+
+    async invalidateLibrarianTokens(librarianId:number): Promise<(LibrarianToken | ApiResponse)[]>{
+        const librarianTokens = await this.librarianToken.find({
+            librarianId : librarianId,
+        });
+
+        const results = [];
+        for(const librarianToken of librarianTokens){
+            results.push(this.invalidateToken(librarianToken.token));
+        }
+
+        return results
     }
 }

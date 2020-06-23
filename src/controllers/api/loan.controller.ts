@@ -28,7 +28,13 @@ import { EditLoanDto } from "src/dtos/loan/edit.loan.dto";
                 librarian:{
                     eager:true
                 },
-                loan:{
+                book:{
+                    eager:true
+                },
+                category:{
+                    eager: true
+                },
+                author:{
                     eager:true
                 }
                 

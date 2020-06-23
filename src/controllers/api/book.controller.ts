@@ -34,10 +34,15 @@ import { BookSearchDto } from "src/dtos/book/book.search.dto";
             author:{
                 eager: true,
             },
+            category:{
+                eager: true,
+            },
             photos:{
                 eager:true
             }
-        }
+        },
+        
+        
     },
 
     routes:{
