@@ -27,8 +27,7 @@ import { AllowToRoles } from "src/misc/allow.to.roles.descriptor";
         },
         routes:{
             only: [
-                "createManyBase",
-                "createOneBase",
+
                 "updateOneBase",
                 "getManyBase",
                 "getOneBase",

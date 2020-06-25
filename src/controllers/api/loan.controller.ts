@@ -42,8 +42,7 @@ import { EditLoanDto } from "src/dtos/loan/edit.loan.dto";
         },
         routes:{
             only: [
-                "createManyBase",
-                "createOneBase",
+
                 "updateOneBase",
                 "getManyBase",
                 "getOneBase",

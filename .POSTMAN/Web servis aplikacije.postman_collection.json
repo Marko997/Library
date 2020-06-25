@@ -11,9 +11,6 @@
 				{
 					"name": "Get all librarians",
 					"request": {
-						"auth": {
-							"type": "bearer"
-						},
 						"method": "GET",
 						"header": [
 							{
@@ -234,7 +231,7 @@
 				{
 					"name": "Add new librarian",
 					"request": {
-						"method": "PUT",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -340,13 +337,19 @@
 							"body": "{\n    \"status\": \"error\",\n    \"statusCode\": -1001,\n    \"message\": null\n}"
 						},
 						{
-							"name": "Add new librarian",
+							"name": "Add new librarian data validation not passed",
 							"originalRequest": {
-								"method": "PUT",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"username\": \"pperic\",\n\t\"password\": \"nekalozinka\"\n}",
+									"raw": "{\n\t\"username\": \"pperic2\",\n\t\"password\": \"neka\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -354,7 +357,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3000/api/librarian/?Content-Type=aplication/json",
+									"raw": "http://localhost:3000/api/librarian/",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -367,14 +370,15 @@
 									],
 									"query": [
 										{
-											"key": "Content-Type",
-											"value": "aplication/json"
+											"key": "",
+											"value": "",
+											"disabled": true
 										}
 									]
 								}
 							},
-							"status": "OK",
-							"code": 200,
+							"status": "Bad Request",
+							"code": 400,
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
@@ -391,11 +395,11 @@
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"b7-g2whmpns8V3aJxstCvvw61kMo38\""
+									"value": "W/\"b7-NFgmEdrhKt/ZF1FpfJjWDPt9m+I\""
 								},
 								{
 									"key": "Date",
-									"value": "Wed, 13 May 2020 14:57:32 GMT"
+									"value": "Sun, 07 Jun 2020 20:06:46 GMT"
 								},
 								{
 									"key": "Connection",
@@ -403,14 +407,87 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"username\": \"pperic\",\n    \"passwordHash\": \"0DCC617B3BEF102B2B55B9C4275C7A8924E825DBC4AEF3B69D40550D865CF67DCF5399A5FFAB74CF4D9C737DF73C3D2BEC03E21AB5B62B1DBB200ADF40AD5C88\",\n    \"librarianId\": 4\n}"
+							"body": "{\n    \"statusCode\": 400,\n    \"message\": [\n        \"username must match /^[a-z][a-z0-9\\\\.]{,30}[a-z0-9]$/ regular expression\",\n        \"password must be longer than or equal to 6 characters\"\n    ],\n    \"error\": \"Bad Request\"\n}"
+						},
+						{
+							"name": "Add new librarian",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"mmaric\",\n\t\"password\": \"nekalozinka1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/librarian/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"librarian",
+										""
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "183"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"b7-aKnbdEZ3qWlORBQ84EUqvfp5+Mc\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 05 Jun 2020 22:43:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"username\": \"mmaric\",\n    \"passwordHash\": \"2F8F0E5D5B62BBE12BCCB951EE8F31A6D7D4FFF1F9919A615C4D11FF5E96A7C6F77F4E5F55ACB3046F250C2E304CE8FBFEE8C311B16C86B70B107FE3C324C7C8\",\n    \"librarianId\": 7\n}"
 						}
 					]
 				},
 				{
 					"name": "Edit an librarian",
 					"request": {
-						"method": "POST",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -513,7 +590,7 @@
 				{
 					"name": "Edit an non existing librarian",
 					"request": {
-						"method": "POST",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -925,7 +1002,70 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Upload book photo success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "photo",
+											"type": "file",
+											"src": "/C:/Users/Marko/Desktop/Projekti/njegovo_srce_vv.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/book/3/uploadPhoto",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"book",
+										"3",
+										"uploadPhoto"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "78"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4e-jktXkH9Dni0kbWu4KK7kKfCK4PE\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Jun 2020 10:14:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"bookId\": \"3\",\n    \"imagePath\": \"202066-2890518147-njegovo_srce_vv.jpg\",\n    \"photoId\": 5\n}"
+						}
+					]
 				},
 				{
 					"name": "Get all books",
@@ -1006,7 +1146,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/book/3",
+							"raw": "http://localhost:3000/api/book/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1015,11 +1155,67 @@
 							"path": [
 								"api",
 								"book",
-								"3"
+								"5"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Get single book success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/book/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"book",
+										"5"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "391"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"187-MiPeajEHUVw+gAPL1u+rPGORbhI\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Jun 2020 22:39:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"bookId\": 5,\n    \"title\": \"Njegova devojka\",\n    \"categoryId\": 1,\n    \"authorId\": 1,\n    \"excerpt\": \"Kratak opis..\",\n    \"description\": \"Duzi opis....\",\n    \"isbn\": \"123555555\",\n    \"status\": \"lost\",\n    \"author\": {\n        \"authorId\": 1,\n        \"forename\": \"Bler\",\n        \"surename\": \"Holden\"\n    },\n    \"category\": {\n        \"categoryId\": 1,\n        \"name\": \"Ljubavne knjige\",\n        \"imagePath\": \"assets/love.jpg\"\n    },\n    \"photos\": [\n        {\n            \"photoId\": 8,\n            \"bookId\": 5,\n            \"imagePath\": \"2020618-3634638564-njegovo_srce_vv.jpg\"\n        }\n    ]\n}"
+						}
+					]
 				},
 				{
 					"name": "Delete a single photo",
@@ -1027,7 +1223,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/book/3/deletePhoto/4",
+							"raw": "http://localhost:3000/api/book/3/deletePhoto/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1038,7 +1234,7 @@
 								"book",
 								"3",
 								"deletePhoto",
-								"4"
+								"5"
 							]
 						}
 					},
@@ -1185,7 +1381,225 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Edit a single book",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\":\"Njegova devojka2\",\n\t\"categoryId\":1,\n\t\"authorId\":1,\n\t\"excerpt\":\"Kratak opis..\",\n\t\"description\": \"Duzi opis....\",\n\t\"isbn\": \"123555555\",\n\t\"status\": \"lost\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/book/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"book",
+										"3"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "296"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"128-3Z1f5Pnh2rW1KM4rFUgiebw+LRo\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 05 Jun 2020 11:39:09 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"bookId\": 3,\n    \"title\": \"Njegova devojka2\",\n    \"categoryId\": 1,\n    \"authorId\": 1,\n    \"excerpt\": \"Kratak opis..\",\n    \"description\": \"Duzi opis....\",\n    \"isbn\": \"123555555\",\n    \"status\": \"lost\",\n    \"category\": {\n        \"categoryId\": 1,\n        \"name\": \"Ljubavne\",\n        \"imagePath\": \"assets/love.jpg\"\n    },\n    \"author\": {\n        \"authorId\": 1,\n        \"forename\": \"Bler\",\n        \"surename\": \"Holden\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Search books",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categoryId\":1,\r\n    \"keywords\": \"lost\",\r\n    \"orderBy\": \"title\",\r\n    \"orderDirection\": \"DESC\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/book/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"book",
+								"search"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Search books success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoryId\":1,\r\n    \"keywords\": \"lost\",\r\n    \"orderBy\": \"title\",\r\n    \"orderDirection\": \"DESC\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/book/search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"book",
+										"search"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "694"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b6-z1XF2Z5mmblJrfMU0EtO9qAJ1wY\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 09 Jun 2020 15:06:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"bookId\": 3,\n        \"title\": \"Njegova devojka2\",\n        \"categoryId\": 1,\n        \"authorId\": 1,\n        \"excerpt\": \"Kratak opis..\",\n        \"description\": \"Duzi opis....\",\n        \"isbn\": \"123555555\",\n        \"status\": \"lost\",\n        \"category\": {\n            \"categoryId\": 1,\n            \"name\": \"Ljubavne\",\n            \"imagePath\": \"assets/love.jpg\"\n        },\n        \"author\": {\n            \"authorId\": 1,\n            \"forename\": \"Bler\",\n            \"surename\": \"Holden\"\n        },\n        \"photos\": [\n            {\n                \"photoId\": 6,\n                \"bookId\": 3,\n                \"imagePath\": \"202066-3284687238-njegovo_srce_vv.jpg\"\n            }\n        ]\n    },\n    {\n        \"bookId\": 5,\n        \"title\": \"Njegova devojka\",\n        \"categoryId\": 1,\n        \"authorId\": 1,\n        \"excerpt\": \"Kratak opis..\",\n        \"description\": \"Duzi opis....\",\n        \"isbn\": \"123555555\",\n        \"status\": \"lost\",\n        \"category\": {\n            \"categoryId\": 1,\n            \"name\": \"Ljubavne\",\n            \"imagePath\": \"assets/love.jpg\"\n        },\n        \"author\": {\n            \"authorId\": 1,\n            \"forename\": \"Bler\",\n            \"surename\": \"Holden\"\n        },\n        \"photos\": []\n    }\n]"
+						},
+						{
+							"name": "Search books success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoryId\":1,\r\n    \"keywords\": \"123213\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/book/search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"book",
+										"search"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "162"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"a2-yetyYaMHnrcWQmxFjYYjlF3YTMI\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 09 Jun 2020 14:44:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"bookId\": 4,\n        \"title\": \"Udata do ponedeljka\",\n        \"categoryId\": 1,\n        \"authorId\": 2,\n        \"excerpt\": \"Kratak ops...\",\n        \"description\": \"Duzi opis..\",\n        \"isbn\": \"123213\",\n        \"status\": \"avaiable\"\n    }\n]"
+						}
+					]
 				}
 			],
 			"event": [
@@ -1216,7 +1630,7 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "Login",
+					"name": "Librarian login",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -1231,7 +1645,7 @@
 							"raw": "{\n\t\"username\":\"admin\",\n\t\"password\":\"admin\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:3000/auth/login/",
+							"raw": "http://localhost:3000/auth/librarian/login/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1239,6 +1653,7 @@
 							"port": "3000",
 							"path": [
 								"auth",
+								"librarian",
 								"login",
 								""
 							]
@@ -1429,6 +1844,480 @@
 							"body": "{\n    \"status\": \"error\",\n    \"statusCode\": -3001,\n    \"message\": null\n}"
 						}
 					]
+				},
+				{
+					"name": "Student login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"student2\",\n\t\"password\":\"nekaSifra123\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/student/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"student",
+								"login",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Student login success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"student2\",\n\t\"password\":\"nekaSifra123\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/auth/student/login/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"auth",
+										"student",
+										"login",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "289"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"121-nMPTIYaYlAJSeKP5ozPwzjj4nLA\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 05 Jun 2020 19:46:28 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 3,\n    \"username\": \"student2\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3R1ZGVudCIsImlkIjozLCJ1c2VybmFtZSI6InN0dWRlbnQyIiwiZXhwIjoxNTkyNTk1OTg4LjM2MywiaXAiOiI6OjEiLCJ1YSI6IlBvc3RtYW5SdW50aW1lLzcuMjUuMCIsImlhdCI6MTU5MTM4NjM4OH0.-axFYTcGuUp4vDOomujwIzVhtXX2m0PNu1X0vtoiHyo\"\n}"
+						},
+						{
+							"name": "Student login error not student found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"student21\",\n\t\"password\":\"nekaSifra123\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/auth/student/login/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"auth",
+										"student",
+										"login",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "52"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"34-jVzHjGg0W81AgoBNOOnaoLkouLY\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 05 Jun 2020 19:47:09 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"error\",\n    \"statusCode\": -3001,\n    \"message\": null\n}"
+						},
+						{
+							"name": "Student login error wrong password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"student2\",\n\t\"password\":\"nekaSifra1234\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/auth/student/login/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"auth",
+										"student",
+										"login",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "52"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"34-yGnd1fUn+KRemOJUJKfIJoExxS4\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 05 Jun 2020 19:47:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"error\",\n    \"statusCode\": -3002,\n    \"message\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Refresh student token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3R1ZGVudCIsImlkIjozLCJ1c2VybmFtZSI6InN0dWRlbnQyIiwiZXhwIjoxNTk1NzQ5MTI0LjQ3NCwiaXAiOiI6OjEiLCJ1YSI6IlBvc3RtYW5SdW50aW1lLzcuMjYuMSIsImlhdCI6MTU5MzA3MDcyNH0.vmme7uP1fg2FPc9j6FiMemIccNndIV3QtV9vo1P-5yc\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/student/refresh/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"student",
+								"refresh",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Refresh student token success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3R1ZGVudCIsImlkIjozLCJleHAiOjE1OTQ1ODE1NDEuMTMxLCJpcCI6Ijo6MSIsInVhIjoiUG9zdG1hblJ1bnRpbWUvNy4yNS4wIiwiaWF0IjoxNTkxOTAzMTQxfQ.RlW2-Tk4aO33yR9E8uPQBfQiHka7R7oS8FJX4qD2zrw\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/auth/student/refresh/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"auth",
+										"student",
+										"refresh",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "526"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"20e-fFOuB/qkjMyMeSHiV7p/HINiPOM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 11 Jun 2020 19:59:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 3,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3R1ZGVudCIsImlkIjozLCJleHAiOjE1OTE5MDU4NzIuMTU3LCJpcCI6Ijo6MSIsInVhIjoiUG9zdG1hblJ1bnRpbWUvNy4yNS4wIiwiaWF0IjoxNTkxOTA1NTcyfQ.2sNgSjEhAiLNsILl_G3Ozmsh_kY8nK5sqJVvvHpqb9k\",\n    \"refershToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3R1ZGVudCIsImlkIjozLCJleHAiOjE1OTQ1ODE1NDEuMTMxLCJpcCI6Ijo6MSIsInVhIjoiUG9zdG1hblJ1bnRpbWUvNy4yNS4wIiwiaWF0IjoxNTkxOTAzMTQxfQ.RlW2-Tk4aO33yR9E8uPQBfQiHka7R7oS8FJX4qD2zrw\",\n    \"refershTokenExpiresAt\": \"2020-07-12T19:19:01.131Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Refresh librarian token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibGlicmFyaWFuIiwiaWQiOjYsInVzZXJuYW1lIjoiYWRtaW4iLCJleHAiOjE1OTU3NDkwMDIuODE1LCJpcCI6Ijo6MSIsInVhIjoiUG9zdG1hblJ1bnRpbWUvNy4yNi4xIiwiaWF0IjoxNTkzMDcwNjAyfQ.ZL1UXB1E8drx1iYlpbfiw56GCXFB6_rBPJ--cP96IYo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/librarian/refresh/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"librarian",
+								"refresh",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Refresh librarian token success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibGlicmFyaWFuIiwiaWQiOjYsInVzZXJuYW1lIjoiYWRtaW4iLCJleHAiOjE1OTU3NDkwMDIuODE1LCJpcCI6Ijo6MSIsInVhIjoiUG9zdG1hblJ1bnRpbWUvNy4yNi4xIiwiaWF0IjoxNTkzMDcwNjAyfQ.ZL1UXB1E8drx1iYlpbfiw56GCXFB6_rBPJ--cP96IYo\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/auth/librarian/refresh/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"auth",
+										"librarian",
+										"refresh",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "601"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"259-NHUfU6FyiKQc8L7bG5YL3WyUscM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jun 2020 07:37:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 6,\n    \"username\": \"admin\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibGlicmFyaWFuIiwiaWQiOjYsInVzZXJuYW1lIjoiYWRtaW4iLCJleHAiOjE1OTMwNzA5NzMuNTcyLCJpcCI6Ijo6MSIsInVhIjoiUG9zdG1hblJ1bnRpbWUvNy4yNi4xIiwiaWF0IjoxNTkzMDcwNjczfQ.L4FI6mUA_w6cJztrRgxID5UX09ZaCHg-IslKBAWVJE4\",\n    \"refershToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibGlicmFyaWFuIiwiaWQiOjYsInVzZXJuYW1lIjoiYWRtaW4iLCJleHAiOjE1OTU3NDkwMDIuODE1LCJpcCI6Ijo6MSIsInVhIjoiUG9zdG1hblJ1bnRpbWUvNy4yNi4xIiwiaWF0IjoxNTkzMDcwNjAyfQ.ZL1UXB1E8drx1iYlpbfiw56GCXFB6_rBPJ--cP96IYo\",\n    \"refershTokenExpiresAt\": \"2020-07-26T07:36:42.815Z\"\n}"
+						},
+						{
+							"name": "Refresh librarian token error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibGlicmFyaWFuIiwiaWQiOjYsInVzZXJuYW1lIjoiYWRtaW4iLCJleHAiOjE1OTMwMzQzMzAuNDE0LCJpcCI6Ijo6MSIsInVhIjoiUG9zdG1hblJ1bnRpbWUvNy4yNi4xIiwiaWF0IjoxNTkzMDM0MDMwfQ.8wbbZN6YNJM38nH4a6MZjrslEXjwAlNbcOqPJ4rbTkw\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/auth/librarian/refresh/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"auth",
+										"librarian",
+										"refresh",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "73"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"49-s/9CVGdYXVdXHa3H3eFSV1iOSmY\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Jun 2020 21:27:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"error\",\n    \"statusCode\": -10002,\n    \"message\": \"No such refresh token!\"\n}"
+						}
+					]
 				}
 			],
 			"auth": {
@@ -1559,7 +2448,328 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Get single category success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/category/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"category",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "552"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"228-ZJ6YcnnsZRv5Cabk2K2TWeQxuNI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 18 Jun 2020 16:20:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"categoryId\": 1,\n    \"name\": \"Ljubavne\",\n    \"imagePath\": \"assets/love.jpg\",\n    \"books\": [\n        {\n            \"bookId\": 3,\n            \"title\": \"Njegova devojka2\",\n            \"categoryId\": 1,\n            \"authorId\": 1,\n            \"excerpt\": \"Kratak opis..\",\n            \"description\": \"Duzi opis....\",\n            \"isbn\": \"123555555\",\n            \"status\": \"lost\"\n        },\n        {\n            \"bookId\": 4,\n            \"title\": \"Udata do ponedeljka\",\n            \"categoryId\": 1,\n            \"authorId\": 2,\n            \"excerpt\": \"Kratak ops...\",\n            \"description\": \"Duzi opis..\",\n            \"isbn\": \"123213\",\n            \"status\": \"avaiable\"\n        },\n        {\n            \"bookId\": 5,\n            \"title\": \"Njegova devojka\",\n            \"categoryId\": 1,\n            \"authorId\": 1,\n            \"excerpt\": \"Kratak opis..\",\n            \"description\": \"Duzi opis....\",\n            \"isbn\": \"123555555\",\n            \"status\": \"lost\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Add new category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"Putopis\",\r\n    \"imagePath\": \"assets/putopis\"\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/category/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"category",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add new category success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"name\": \"Putopis\",\r\n    \"imagePath\": \"assets/putopis\"\r\n\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/category/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"category",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "73"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"49-VXe2lVJ2GA4Uh3GQBL6MgCXLu+k\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Jun 2020 21:15:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"categoryId\": 5,\n    \"name\": \"Putopis\",\n    \"imagePath\": \"assets/putopis\",\n    \"books\": []\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit category",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"Putopis knjige\",\r\n    \"imagePath\": \"assets/putopis\"\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/category/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"category",
+								"5"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Edit category",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"name\": \"Putopis knjige\",\r\n    \"imagePath\": \"assets/putopis\"\r\n\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/category/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"category",
+										"5"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "80"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"50-3+MQeSSEsTfpIk9EfZjOO7QUfGA\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Jun 2020 21:16:54 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"categoryId\": 5,\n    \"name\": \"Putopis knjige\",\n    \"imagePath\": \"assets/putopis\",\n    \"books\": []\n}"
+						},
+						{
+							"name": "Add new category success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"name\": \"Putopis\",\r\n    \"imagePath\": \"assets/putopis\"\r\n\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/category/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"category",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "73"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"49-VXe2lVJ2GA4Uh3GQBL6MgCXLu+k\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Jun 2020 21:15:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"categoryId\": 5,\n    \"name\": \"Putopis\",\n    \"imagePath\": \"assets/putopis\",\n    \"books\": []\n}"
+						}
+					]
 				}
 			],
 			"event": [
@@ -1608,7 +2818,63 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Get single author success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/author/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"author",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "53"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"35-3WfIp7Ya5hmJr4BGtTtsNkDla+w\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Jun 2020 22:38:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"authorId\": 2,\n    \"forename\": \"Ketrin\",\n    \"surename\": \"Bajbi\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Get all authors",
@@ -1682,6 +2948,222 @@
 							"body": "[\n    {\n        \"authorId\": 1,\n        \"forename\": \"Bler\",\n        \"surename\": \"Holden\"\n    },\n    {\n        \"authorId\": 2,\n        \"forename\": \"Ketrin\",\n        \"surename\": \"Bajbi\"\n    }\n]"
 						}
 					]
+				},
+				{
+					"name": "Add new author",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"forename\": \"Dobrica\",\r\n    \"surename\": \"Cosic\"\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/author/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"author",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add new author success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"forename\": \"Dobrica\",\r\n    \"surename\": \"Cosic\"\r\n\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/author/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"author",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "54"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"36-OKPZMjpUIrHUz6+gTAYJM5jI4Oo\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Jun 2020 21:20:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"authorId\": 4,\n    \"forename\": \"Dobrica\",\n    \"surename\": \"Cosic\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit author",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"forename\": \"Dobricaa\",\r\n    \"surename\": \"Cosic\"\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/author/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"author",
+								"4"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Edit author success",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"forename\": \"Dobricaa\",\r\n    \"surename\": \"Cosic\"\r\n\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/author/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"author",
+										"4"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "55"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"37-Mw8HcwAzJzGHXoNXKOCnrUxXZMo\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Jun 2020 21:22:10 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"authorId\": 4,\n    \"forename\": \"Dobricaa\",\n    \"surename\": \"Cosic\"\n}"
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2f9708bd-c95f-42de-8ee9-8f539da9ffd0",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1e3fd2fe-6636-47df-95c0-7520ed4142bd",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -1695,7 +3177,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/photo/4",
+							"raw": "http://localhost:3000/api/photo/8",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1704,11 +3186,241 @@
 							"path": [
 								"api",
 								"photo",
-								"4"
+								"8"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Get single photo success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/photo/8",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"photo",
+										"8"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "242"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f2-c7VRrYZOe3yNo7UWRH6hPwls9Nc\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Jun 2020 22:39:36 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"photoId\": 8,\n    \"bookId\": 5,\n    \"imagePath\": \"2020618-3634638564-njegovo_srce_vv.jpg\",\n    \"book\": {\n        \"bookId\": 5,\n        \"title\": \"Njegova devojka\",\n        \"categoryId\": 1,\n        \"authorId\": 1,\n        \"excerpt\": \"Kratak opis..\",\n        \"description\": \"Duzi opis....\",\n        \"isbn\": \"123555555\",\n        \"status\": \"lost\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit photo",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n\t\"imagePath\": \"2020618-3634638564-njegovo_srce_vv.jpg\"\r\n\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/photo/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"photo",
+								"8"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Edit photo success",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n\t\"imagePath\": \"some/image/path\"\r\n\r\n\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/photo/8",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"photo",
+										"8"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "219"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"db-JhwmKkSh25rF50bPQGgXyeFuTWY\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Jun 2020 22:33:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"photoId\": 8,\n    \"bookId\": 5,\n    \"imagePath\": \"some/image/path\",\n    \"book\": {\n        \"bookId\": 5,\n        \"title\": \"Njegova devojka\",\n        \"categoryId\": 1,\n        \"authorId\": 1,\n        \"excerpt\": \"Kratak opis..\",\n        \"description\": \"Duzi opis....\",\n        \"isbn\": \"123555555\",\n        \"status\": \"lost\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all photos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/photo/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"photo",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get all photos success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/photo/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"photo",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "494"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1ee-DmPpWdIAW8cwZWAe8ueo8l+t9R0\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Jun 2020 22:17:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"photoId\": 7,\n        \"bookId\": 4,\n        \"imagePath\": \"2020618-1787603934-udata_do_ponedeljka.jpg\",\n        \"book\": {\n            \"bookId\": 4,\n            \"title\": \"Udata do ponedeljka\",\n            \"categoryId\": 1,\n            \"authorId\": 2,\n            \"excerpt\": \"Kratak ops...\",\n            \"description\": \"Duzi opis..\",\n            \"isbn\": \"123213\",\n            \"status\": \"avaiable\"\n        }\n    },\n    {\n        \"photoId\": 8,\n        \"bookId\": 5,\n        \"imagePath\": \"2020618-3634638564-njegovo_srce_vv.jpg\",\n        \"book\": {\n            \"bookId\": 5,\n            \"title\": \"Njegova devojka\",\n            \"categoryId\": 1,\n            \"authorId\": 1,\n            \"excerpt\": \"Kratak opis..\",\n            \"description\": \"Duzi opis....\",\n            \"isbn\": \"123555555\",\n            \"status\": \"lost\"\n        }\n    }\n]"
+						}
+					]
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -1861,6 +3573,196 @@
 							"body": "{\n    \"loanId\": 1,\n    \"studentId\": 1,\n    \"librarianId\": 1,\n    \"createdAt\": \"2020-06-03T16:54:41.000Z\",\n    \"expectedToBeReturnedAt\": \"2020-06-15T16:54:45.000Z\",\n    \"status\": \"pending\",\n    \"returnedAt\": \"2020-06-03T16:55:27.000Z\",\n    \"bookId\": 3,\n    \"student\": {\n        \"studentId\": 1,\n        \"username\": \"student1\",\n        \"passwordHash\": \"21321321312\",\n        \"forename\": \"Petar\",\n        \"surename\": \"Peric\",\n        \"phoneNumber\": \"0601234567\",\n        \"classNumber\": \"5-5\"\n    },\n    \"librarian\": {\n        \"librarianId\": 1,\n        \"username\": \"MarkoS\",\n        \"passwordHash\": \"B46B55D15FA5347621DBB6BA72BDDC0D9E42BD5360086D5AC92D4E7B46A2AFD763D81CAD775BAEDF7ADC991DA9C351DA703C0BBDA56C5C14B2B2047AFBA833F4\"\n    },\n    \"book\": {\n        \"bookId\": 3,\n        \"title\": \"Njegova devojka2\",\n        \"categoryId\": 1,\n        \"authorId\": 1,\n        \"excerpt\": \"Kratak opis..\",\n        \"description\": \"Duzi opis....\",\n        \"isbn\": \"123555555\",\n        \"status\": \"lost\"\n    }\n}"
 						}
 					]
+				},
+				{
+					"name": "Add new loan",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n    \"studentId\": 1,\n    \"librarianId\": 1,\n    \"createdAt\": \"2020-06-06 18:54:26\",\n    \"expectedToBeReturnedAt\": \"2020-06-07 18:54:26\",\n    \"status\": \"pending\",\n    \"bookId\": 4\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/loan/createFull",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"loan",
+								"createFull"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add new loan success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \n    \"studentId\": 1,\n    \"librarianId\": 1,\n    \"createdAt\": \"2020-06-06 18:54:26\",\n    \"expectedToBeReturnedAt\": \"2020-06-07 18:54:26\",\n    \"status\": \"pending\",\n    \"bookId\": 4\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/loan/createFull",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"loan",
+										"createFull"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "824"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"338-W57UL3dC+u2fzZ2EkYgueNLZXUA\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 19 Jun 2020 17:24:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"loanId\": 3,\n    \"studentId\": 1,\n    \"librarianId\": 1,\n    \"createdAt\": \"2020-06-06T16:54:26.000Z\",\n    \"expectedToBeReturnedAt\": \"2020-06-07T16:54:26.000Z\",\n    \"status\": \"pending\",\n    \"returnedAt\": null,\n    \"bookId\": 4,\n    \"student\": {\n        \"studentId\": 1,\n        \"username\": \"student1\",\n        \"passwordHash\": \"CC4F60976B7E97AA6842A8C87BF213B81FFD2FE72334A54B4251D9A4A803237755684B569DB779BD074F24778BBD887DEE8C9B8123E935678F6FDC97BE7AD12D\",\n        \"forename\": \"Petar\",\n        \"surename\": \"Peric\",\n        \"phoneNumber\": \"0621345678\",\n        \"classNumber\": \"6-7\"\n    },\n    \"librarian\": {\n        \"librarianId\": 1,\n        \"username\": \"MarkoS\",\n        \"passwordHash\": \"CC4F60976B7E97AA6842A8C87BF213B81FFD2FE72334A54B4251D9A4A803237755684B569DB779BD074F24778BBD887DEE8C9B8123E935678F6FDC97BE7AD12D\"\n    },\n    \"book\": {\n        \"bookId\": 4,\n        \"title\": \"Udata do ponedeljka\",\n        \"categoryId\": 1,\n        \"authorId\": 2,\n        \"excerpt\": \"Kratak ops...\",\n        \"description\": \"Duzi opis..\",\n        \"isbn\": \"123213\",\n        \"status\": \"avaiable\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit loan",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n    \"studentId\": 1,\n    \"librarianId\": 1,\n    \"createdAt\": \"2020-06-06 18:54:26\",\n    \"expectedToBeReturnedAt\": \"2020-06-07 18:54:26\",\n    \"status\": \"returned\",\n    \"bookId\": 4\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/loan/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"loan",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Edit loan success",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \n    \"studentId\": 1,\n    \"librarianId\": 1,\n    \"createdAt\": \"2020-06-06 18:54:26\",\n    \"expectedToBeReturnedAt\": \"2020-06-07 18:54:26\",\n    \"status\": \"returned\",\n    \"bookId\": 4\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/loan/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"loan",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "847"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"34f-y+kjouMZHzcTlBmj03IqUyf+fnE\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Jun 2020 17:00:17 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"loanId\": 1,\n    \"studentId\": 1,\n    \"librarianId\": 1,\n    \"createdAt\": \"2020-06-06T16:54:26.000Z\",\n    \"expectedToBeReturnedAt\": \"2020-06-07T16:54:26.000Z\",\n    \"status\": \"returned\",\n    \"returnedAt\": \"2020-06-03T16:55:27.000Z\",\n    \"bookId\": 4,\n    \"student\": {\n        \"studentId\": 1,\n        \"username\": \"student1\",\n        \"passwordHash\": \"CC4F60976B7E97AA6842A8C87BF213B81FFD2FE72334A54B4251D9A4A803237755684B569DB779BD074F24778BBD887DEE8C9B8123E935678F6FDC97BE7AD12D\",\n        \"forename\": \"Petar\",\n        \"surename\": \"Peric\",\n        \"phoneNumber\": \"0621345678\",\n        \"classNumber\": \"6-7\"\n    },\n    \"librarian\": {\n        \"librarianId\": 1,\n        \"username\": \"MarkoS\",\n        \"passwordHash\": \"CC4F60976B7E97AA6842A8C87BF213B81FFD2FE72334A54B4251D9A4A803237755684B569DB779BD074F24778BBD887DEE8C9B8123E935678F6FDC97BE7AD12D\"\n    },\n    \"book\": {\n        \"bookId\": 4,\n        \"title\": \"Udata do ponedeljka\",\n        \"categoryId\": 1,\n        \"authorId\": 2,\n        \"excerpt\": \"Kratak ops...\",\n        \"description\": \"Duzi opis..\",\n        \"isbn\": \"123213\",\n        \"status\": \"avaiable\"\n    }\n}"
+						}
+					]
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -1874,7 +3776,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/loan/",
+							"raw": "http://localhost:3000/api/reservation/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1882,19 +3784,19 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"loan",
+								"reservation",
 								""
 							]
 						}
 					},
 					"response": [
 						{
-							"name": "Get all reservations",
+							"name": "Get all reservations success",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3000/api/loan/",
+									"raw": "http://localhost:3000/api/reservation/",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1902,7 +3804,7 @@
 									"port": "3000",
 									"path": [
 										"api",
-										"loan",
+										"reservation",
 										""
 									]
 								}
@@ -1921,15 +3823,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "729"
+									"value": "2753"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"2d9-T9CcYyi9aCdKQEwDbPQ6YDmYO2U\""
+									"value": "W/\"ac1-xySENmXKrvf6eGiBVx4W1z6AoVs\""
 								},
 								{
 									"key": "Date",
-									"value": "Wed, 03 Jun 2020 17:13:22 GMT"
+									"value": "Sat, 06 Jun 2020 16:19:52 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1937,7 +3839,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "[\n    {\n        \"loanId\": 1,\n        \"studentId\": 1,\n        \"librarianId\": 1,\n        \"createdAt\": \"2020-06-03T16:54:41.000Z\",\n        \"expectedToBeReturnedAt\": \"2020-06-15T16:54:45.000Z\",\n        \"status\": \"pending\",\n        \"returnedAt\": \"2020-06-03T16:55:27.000Z\",\n        \"bookId\": 3,\n        \"student\": {\n            \"studentId\": 1,\n            \"username\": \"student1\",\n            \"passwordHash\": \"21321321312\",\n            \"forename\": \"Petar\",\n            \"surename\": \"Peric\",\n            \"phoneNumber\": \"0601234567\",\n            \"classNumber\": \"5-5\"\n        },\n        \"librarian\": {\n            \"librarianId\": 1,\n            \"username\": \"MarkoS\",\n            \"passwordHash\": \"B46B55D15FA5347621DBB6BA72BDDC0D9E42BD5360086D5AC92D4E7B46A2AFD763D81CAD775BAEDF7ADC991DA9C351DA703C0BBDA56C5C14B2B2047AFBA833F4\"\n        },\n        \"book\": {\n            \"bookId\": 3,\n            \"title\": \"Njegova devojka2\",\n            \"categoryId\": 1,\n            \"authorId\": 1,\n            \"excerpt\": \"Kratak opis..\",\n            \"description\": \"Duzi opis....\",\n            \"isbn\": \"123555555\",\n            \"status\": \"lost\"\n        }\n    }\n]"
+							"body": "[\n    {\n        \"reservationId\": 1,\n        \"studentId\": 1,\n        \"bookId\": 3,\n        \"status\": \"pending\",\n        \"reservedAt\": \"2020-06-03T16:54:26.000Z\",\n        \"student\": {\n            \"studentId\": 1,\n            \"username\": \"student1\",\n            \"passwordHash\": \"CC4F60976B7E97AA6842A8C87BF213B81FFD2FE72334A54B4251D9A4A803237755684B569DB779BD074F24778BBD887DEE8C9B8123E935678F6FDC97BE7AD12D\",\n            \"forename\": \"Petar\",\n            \"surename\": \"Peric\",\n            \"phoneNumber\": \"0621345678\",\n            \"classNumber\": \"6-7\"\n        },\n        \"book\": {\n            \"bookId\": 3,\n            \"title\": \"Njegova devojka2\",\n            \"categoryId\": 1,\n            \"authorId\": 1,\n            \"excerpt\": \"Kratak opis..\",\n            \"description\": \"Duzi opis....\",\n            \"isbn\": \"123555555\",\n            \"status\": \"lost\"\n        }\n    },\n    {\n        \"reservationId\": 2,\n        \"studentId\": 1,\n        \"bookId\": 4,\n        \"status\": \"pending\",\n        \"reservedAt\": \"2020-06-06T16:54:26.000Z\",\n        \"student\": {\n            \"studentId\": 1,\n            \"username\": \"student1\",\n            \"passwordHash\": \"CC4F60976B7E97AA6842A8C87BF213B81FFD2FE72334A54B4251D9A4A803237755684B569DB779BD074F24778BBD887DEE8C9B8123E935678F6FDC97BE7AD12D\",\n            \"forename\": \"Petar\",\n            \"surename\": \"Peric\",\n            \"phoneNumber\": \"0621345678\",\n            \"classNumber\": \"6-7\"\n        },\n        \"book\": {\n            \"bookId\": 4,\n            \"title\": \"Udata do ponedeljka\",\n            \"categoryId\": 1,\n            \"authorId\": 2,\n            \"excerpt\": \"Kratak ops...\",\n            \"description\": \"Duzi opis..\",\n            \"isbn\": \"123213\",\n            \"status\": \"avaiable\"\n        }\n    },\n    {\n        \"reservationId\": 3,\n        \"studentId\": 1,\n        \"bookId\": 4,\n        \"status\": \"pending\",\n        \"reservedAt\": \"2020-06-06T16:54:26.000Z\",\n        \"student\": {\n            \"studentId\": 1,\n            \"username\": \"student1\",\n            \"passwordHash\": \"CC4F60976B7E97AA6842A8C87BF213B81FFD2FE72334A54B4251D9A4A803237755684B569DB779BD074F24778BBD887DEE8C9B8123E935678F6FDC97BE7AD12D\",\n            \"forename\": \"Petar\",\n            \"surename\": \"Peric\",\n            \"phoneNumber\": \"0621345678\",\n            \"classNumber\": \"6-7\"\n        },\n        \"book\": {\n            \"bookId\": 4,\n            \"title\": \"Udata do ponedeljka\",\n            \"categoryId\": 1,\n            \"authorId\": 2,\n            \"excerpt\": \"Kratak ops...\",\n            \"description\": \"Duzi opis..\",\n            \"isbn\": \"123213\",\n            \"status\": \"avaiable\"\n        }\n    },\n    {\n        \"reservationId\": 4,\n        \"studentId\": 1,\n        \"bookId\": 4,\n        \"status\": \"pending\",\n        \"reservedAt\": \"2020-06-06T16:54:26.000Z\",\n        \"student\": {\n            \"studentId\": 1,\n            \"username\": \"student1\",\n            \"passwordHash\": \"CC4F60976B7E97AA6842A8C87BF213B81FFD2FE72334A54B4251D9A4A803237755684B569DB779BD074F24778BBD887DEE8C9B8123E935678F6FDC97BE7AD12D\",\n            \"forename\": \"Petar\",\n            \"surename\": \"Peric\",\n            \"phoneNumber\": \"0621345678\",\n            \"classNumber\": \"6-7\"\n        },\n        \"book\": {\n            \"bookId\": 4,\n            \"title\": \"Udata do ponedeljka\",\n            \"categoryId\": 1,\n            \"authorId\": 2,\n            \"excerpt\": \"Kratak ops...\",\n            \"description\": \"Duzi opis..\",\n            \"isbn\": \"123213\",\n            \"status\": \"avaiable\"\n        }\n    },\n    {\n        \"reservationId\": 5,\n        \"studentId\": 1,\n        \"bookId\": 4,\n        \"status\": \"loaned\",\n        \"reservedAt\": \"2020-06-06T16:54:26.000Z\",\n        \"student\": {\n            \"studentId\": 1,\n            \"username\": \"student1\",\n            \"passwordHash\": \"CC4F60976B7E97AA6842A8C87BF213B81FFD2FE72334A54B4251D9A4A803237755684B569DB779BD074F24778BBD887DEE8C9B8123E935678F6FDC97BE7AD12D\",\n            \"forename\": \"Petar\",\n            \"surename\": \"Peric\",\n            \"phoneNumber\": \"0621345678\",\n            \"classNumber\": \"6-7\"\n        },\n        \"book\": {\n            \"bookId\": 4,\n            \"title\": \"Udata do ponedeljka\",\n            \"categoryId\": 1,\n            \"authorId\": 2,\n            \"excerpt\": \"Kratak ops...\",\n            \"description\": \"Duzi opis..\",\n            \"isbn\": \"123213\",\n            \"status\": \"avaiable\"\n        }\n    }\n]"
 						}
 					]
 				},
@@ -1947,7 +3849,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/loan/1",
+							"raw": "http://localhost:3000/api/reservation/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1955,7 +3857,7 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"loan",
+								"reservation",
 								"1"
 							]
 						}
@@ -2011,6 +3913,421 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"loanId\": 1,\n    \"studentId\": 1,\n    \"librarianId\": 1,\n    \"createdAt\": \"2020-06-03T16:54:41.000Z\",\n    \"expectedToBeReturnedAt\": \"2020-06-15T16:54:45.000Z\",\n    \"status\": \"pending\",\n    \"returnedAt\": \"2020-06-03T16:55:27.000Z\",\n    \"bookId\": 3,\n    \"student\": {\n        \"studentId\": 1,\n        \"username\": \"student1\",\n        \"passwordHash\": \"21321321312\",\n        \"forename\": \"Petar\",\n        \"surename\": \"Peric\",\n        \"phoneNumber\": \"0601234567\",\n        \"classNumber\": \"5-5\"\n    },\n    \"librarian\": {\n        \"librarianId\": 1,\n        \"username\": \"MarkoS\",\n        \"passwordHash\": \"B46B55D15FA5347621DBB6BA72BDDC0D9E42BD5360086D5AC92D4E7B46A2AFD763D81CAD775BAEDF7ADC991DA9C351DA703C0BBDA56C5C14B2B2047AFBA833F4\"\n    },\n    \"book\": {\n        \"bookId\": 3,\n        \"title\": \"Njegova devojka2\",\n        \"categoryId\": 1,\n        \"authorId\": 1,\n        \"excerpt\": \"Kratak opis..\",\n        \"description\": \"Duzi opis....\",\n        \"isbn\": \"123555555\",\n        \"status\": \"lost\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Add new reservation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"studentId\": 1,\n    \"bookId\": 4,\n    \"reserved_at\": \"2020-06-06 18:54:26\",\n    \"status\": \"pending\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/reservation/createFull",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"reservation",
+								"createFull"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add new reservation success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"studentId\": 1,\n    \"bookId\": 4,\n    \"reserved_at\": \"2020-06-06 18:54:26\",\n    \"status\": \"pending\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/reservation/createFull",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"reservation",
+										"createFull"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "550"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"226-e6x7VHG58Nve58MVH1jYVhXXhGg\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Jun 2020 16:15:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reservationId\": 3,\n    \"studentId\": 1,\n    \"bookId\": 4,\n    \"status\": \"pending\",\n    \"reservedAt\": \"2020-06-06T16:54:26.000Z\",\n    \"student\": {\n        \"studentId\": 1,\n        \"username\": \"student1\",\n        \"passwordHash\": \"CC4F60976B7E97AA6842A8C87BF213B81FFD2FE72334A54B4251D9A4A803237755684B569DB779BD074F24778BBD887DEE8C9B8123E935678F6FDC97BE7AD12D\",\n        \"forename\": \"Petar\",\n        \"surename\": \"Peric\",\n        \"phoneNumber\": \"0621345678\",\n        \"classNumber\": \"6-7\"\n    },\n    \"book\": {\n        \"bookId\": 4,\n        \"title\": \"Udata do ponedeljka\",\n        \"categoryId\": 1,\n        \"authorId\": 2,\n        \"excerpt\": \"Kratak ops...\",\n        \"description\": \"Duzi opis..\",\n        \"isbn\": \"123213\",\n        \"status\": \"avaiable\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit reservation",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"studentId\": 1,\n    \"bookId\": 4,\n    \"reserved_at\": \"2020-06-10 18:54:26\"\n    \n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/reservation/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"reservation",
+								"5"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Edit reservation success",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"studentId\": 1,\n    \"bookId\": 4,\n    \"reserved_at\": \"2020-06-10 18:54:26\"\n    \n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/reservation/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"reservation",
+										"5"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "549"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"225-vIOkHs1Oy4YWqX3PGmV0i3Xxw3g\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Jun 2020 14:47:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reservationId\": 5,\n    \"studentId\": 1,\n    \"bookId\": 4,\n    \"status\": \"loaned\",\n    \"reservedAt\": \"2020-06-10T16:54:26.000Z\",\n    \"student\": {\n        \"studentId\": 1,\n        \"username\": \"student1\",\n        \"passwordHash\": \"CC4F60976B7E97AA6842A8C87BF213B81FFD2FE72334A54B4251D9A4A803237755684B569DB779BD074F24778BBD887DEE8C9B8123E935678F6FDC97BE7AD12D\",\n        \"forename\": \"Petar\",\n        \"surename\": \"Peric\",\n        \"phoneNumber\": \"0621345678\",\n        \"classNumber\": \"6-7\"\n    },\n    \"book\": {\n        \"bookId\": 4,\n        \"title\": \"Udata do ponedeljka\",\n        \"categoryId\": 1,\n        \"authorId\": 2,\n        \"excerpt\": \"Kratak ops...\",\n        \"description\": \"Duzi opis..\",\n        \"isbn\": \"123213\",\n        \"status\": \"avaiable\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get reservation info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/reservation/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"reservation",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get reservation info success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/reservation/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"reservation",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "550"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"226-EGa18lVot8q9v2uebYHgjASAvTI\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 09 Jun 2020 16:19:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reservationId\": 2,\n    \"studentId\": 1,\n    \"bookId\": 4,\n    \"status\": \"pending\",\n    \"reservedAt\": \"2020-06-06T16:54:26.000Z\",\n    \"student\": {\n        \"studentId\": 1,\n        \"username\": \"student1\",\n        \"passwordHash\": \"CC4F60976B7E97AA6842A8C87BF213B81FFD2FE72334A54B4251D9A4A803237755684B569DB779BD074F24778BBD887DEE8C9B8123E935678F6FDC97BE7AD12D\",\n        \"forename\": \"Petar\",\n        \"surename\": \"Peric\",\n        \"phoneNumber\": \"0621345678\",\n        \"classNumber\": \"6-7\"\n    },\n    \"book\": {\n        \"bookId\": 4,\n        \"title\": \"Udata do ponedeljka\",\n        \"categoryId\": 1,\n        \"authorId\": 2,\n        \"excerpt\": \"Kratak ops...\",\n        \"description\": \"Duzi opis..\",\n        \"isbn\": \"123213\",\n        \"status\": \"avaiable\"\n    }\n}"
+						},
+						{
+							"name": "Get reservation info error reservation not found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/reservation/26",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"reservation",
+										"26"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "72"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"48-3haLAFuligpq3h7y4hbkMR1jduA\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 09 Jun 2020 16:19:31 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"statusCode\": 404,\n    \"message\": \"Reservation not found\",\n    \"error\": \"Not Found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit reservation status by librarian",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"newStatus\": \"pending\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/reservation/librarian/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"reservation",
+								"librarian",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Edit reservation status by librarian success",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"newStatus\": \"pending\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/reservation/librarian/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"reservation",
+										"librarian",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "550"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"226-EGa18lVot8q9v2uebYHgjASAvTI\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Jun 2020 14:42:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reservationId\": 2,\n    \"studentId\": 1,\n    \"bookId\": 4,\n    \"status\": \"pending\",\n    \"reservedAt\": \"2020-06-06T16:54:26.000Z\",\n    \"student\": {\n        \"studentId\": 1,\n        \"username\": \"student1\",\n        \"passwordHash\": \"CC4F60976B7E97AA6842A8C87BF213B81FFD2FE72334A54B4251D9A4A803237755684B569DB779BD074F24778BBD887DEE8C9B8123E935678F6FDC97BE7AD12D\",\n        \"forename\": \"Petar\",\n        \"surename\": \"Peric\",\n        \"phoneNumber\": \"0621345678\",\n        \"classNumber\": \"6-7\"\n    },\n    \"book\": {\n        \"bookId\": 4,\n        \"title\": \"Udata do ponedeljka\",\n        \"categoryId\": 1,\n        \"authorId\": 2,\n        \"excerpt\": \"Kratak ops...\",\n        \"description\": \"Duzi opis..\",\n        \"isbn\": \"123213\",\n        \"status\": \"avaiable\"\n    }\n}"
 						}
 					]
 				}
@@ -2169,7 +4486,7 @@
 				{
 					"name": "Add new student",
 					"request": {
-						"method": "PUT",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -2179,7 +4496,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": \"student2\",\n    \"password\": \"nekaSifra123\",\n    \"forename\": \"Marko\",\n    \"surename\": \"Markovic\",\n    \"phoneNumber\": \"0612345678\",\n    \"classNumber\":\"5-6\"\n}",
+							"raw": "{\n\t\"username\": \"student3\",\n    \"password\": \"student3\",\n    \"forename\": \"Marko\",\n    \"surename\": \"Markovic\",\n    \"phoneNumber\": \"+381612345678\",\n    \"classNumber\":\"5-6\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2272,7 +4589,7 @@
 				{
 					"name": "Edit a single student",
 					"request": {
-						"method": "POST",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -2350,6 +4667,67 @@
 								},
 								{
 									"key": "Date",
+									"value": "Fri, 05 Jun 2020 11:32:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"studentId\": 1,\n    \"username\": \"student1\",\n    \"passwordHash\": \"CC4F60976B7E97AA6842A8C87BF213B81FFD2FE72334A54B4251D9A4A803237755684B569DB779BD074F24778BBD887DEE8C9B8123E935678F6FDC97BE7AD12D\",\n    \"forename\": \"Petar\",\n    \"surename\": \"Peric\",\n    \"phoneNumber\": \"0621345678\",\n    \"classNumber\": \"6-7\"\n}"
+						},
+						{
+							"name": "Edit a single student",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"password\": \"nekaLizinka1234\",\n    \"phonenumber\": \"0621345678\",\n    \"classNumber\":\"6-7\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/student/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"student",
+										"1"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "268"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"10c-DZq9SLSaVM11fdtjOEz1cTobA2k\""
+								},
+								{
+									"key": "Date",
 									"value": "Wed, 03 Jun 2020 17:43:08 GMT"
 								},
 								{
@@ -2371,7 +4749,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsaWJyYXJpYW5JZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsImV4cCI6MTU5MjE2MTcxMy42ODEsImlwIjoiOjoxIiwidWEiOiJQb3N0bWFuUnVudGltZS83LjI1LjAiLCJpYXQiOjE1OTA5NTIxMTN9.QyzgqvrtZAAEglys-SVP4tiNWe08TORlgH3hNDI2SYY",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibGlicmFyaWFuIiwiaWQiOjYsInVzZXJuYW1lIjoiYWRtaW4iLCJleHAiOjE1OTU3MTI0MzAuNDE0LCJpcCI6Ijo6MSIsInVhIjoiUG9zdG1hblJ1bnRpbWUvNy4yNi4xIiwiaWF0IjoxNTkzMDM0MDMwfQ.bmgTl-5DrlNt__M8nKA4ZNXPhsBBQwQmVItFrvy3Cmk",
 				"type": "string"
 			}
 		]
